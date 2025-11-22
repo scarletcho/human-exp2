@@ -270,7 +270,7 @@ body {
     margin-bottom: 16px;
 }
 
-#final-answer-text {
+.main-answer-textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccd0d5;
@@ -278,7 +278,7 @@ body {
     font-size: 16px;
     resize: vertical;
     box-sizing: border-box;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* Consistent margin */
 }
 
 #submit-final-answer-button {
@@ -352,24 +352,6 @@ body {
 }
 #finish-trial-button:hover {
     background-color: #218838;
-}
-textarea#answer-text {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccd0d5;
-    border-radius: 4px;
-    font-size: 16px;
-    resize: vertical;
-    box-sizing: border-box;
-}
-textarea#part7-answer-text {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccd0d5;
-    border-radius: 4px;
-    font-size: 16px;
-    resize: vertical;
-    box-sizing: border-box;
 }
 .checkbox-container {
     margin-top: 10px;
