@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Judgment Experiment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toc-header">
+        <div id="toc-container">
+            <h2>Keywords</h2>
+            <ul id="toc-list"></ul>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <!-- Left Panel for Context -->
+        <div id="context-panel">
+            <div class="context-content">
+                <h2 class="label">Keyword:</h2>
+                <p id="context-keyword"></p>
+                <h2 class="label">Situation:</h2>
+                <p id="context-situation"></p>
+                <div id="context-question-container">
+                    <hr>
+                    <h2 class="label">Question:</h2>
+                    <p id="context-question"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel for Main Content -->
+        <div id="main-panel">
+            <!-- Part 1: Initial Question -->
+            <div id="part1-container" style="display: none;">
+                <div id="part1-question-container"></div>
+                <div class="answer-section">
+                    <h2 class="label">Answer:</h2>
+                    <textarea id="answer-text" rows="6" placeholder="Enter your answer here..."></textarea>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="no-specific-answer">
+                        <label for="no-specific-answer">Nothing specific.</label>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="prev-button">Previous</button>
+                    <button class="next-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Part 2: Candidate Selection & Satisfaction (Initially Hidden) -->
+            <div id="part2-container" style="display: none;">
+                <div class="user-submission-review">
+                    <h2 class="label">Your Answer:</h2>
+                    <p id="ref-user-answer"></p>
+                </div>
+                <div class="candidate-selection">
+                    <h2 class="label">Q: Choose the better answer between:</h2>
+                    <div id="candidate-choices-wrapper">
+                        <div class="candidate-choice">
+                            <input type="radio" id="candidate-a-radio" name="candidate" value="A">
+                            <label for="candidate-a-radio" class="candidate-label">
+                                <div class="candidate-title">Answer A</div>
+                                <div id="candidate-a" class="candidate-content"></div>
+                            </label>
+                        </div>
+                        <div class="candidate-choice">
+                            <input type="radio" id="candidate-b-radio" name="candidate" value="B">
+                            <label for="candidate-b-radio" class="candidate-label">
+                                <div class="candidate-title">Answer B</div>
+                                <div id="candidate-b" class="candidate-content"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="satisfaction-rating">
+                    <hr>
+                    <h2 class="label">Q: How satisfied are you with your chosen answer?</h2>
+                    <div class="satisfaction-options">
+                        <div class="satisfaction-choice">
+                            <input type="radio" id="satisfaction-5" name="satisfaction" value="5">
+                            <label for="satisfaction-5">
+                                <span class="satisfaction-level">5 (Perfectly satisfied:</span> fully accurate, clear, and appropriate)
+                            </label>
+                        </div>
+                        <div class="satisfaction-choice">
+                            <input type="radio" id="satisfaction-4" name="satisfaction" value="4">
+                            <label for="satisfaction-4">
+                                <span class="satisfaction-level">4 (Mostly satisfied:</span> generally satisfied, with only minor issues)
+                            </label>
+                        </div>
+                        <div class="satisfaction-choice">
+                            <input type="radio" id="satisfaction-3" name="satisfaction" value="3">
+                            <label for="satisfaction-3">
+                                <span class="satisfaction-level">3 (Acceptable:</span> adequate overall but clearly improvable)
+                            </label>
+                        </div>
+                        <div class="satisfaction-choice">
+                            <input type="radio" id="satisfaction-2" name="satisfaction" value="2">
+                            <label for="satisfaction-2">
+                                <span class="satisfaction-level">2 (Unsatisfied:</span> contains significant problems and only partially appropriate)
+                            </label>
+                        </div>
+                        <div class="satisfaction-choice">
+                            <input type="radio" id="satisfaction-1" name="satisfaction" value="1">
+                            <label for="satisfaction-1">
+                                <span class="satisfaction-level">1 (Not satisfied at all:</span> mostly inadequate or completely unusable)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="prev-button">Previous</button>
+                    <button class="next-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Part 3: Unchosen Answer Feedback (Initially Hidden) -->
+            <div id="part3-container" style="display: none;">
+                <div id="final-review-section"></div>
+                <hr>
+                <div class="unchosen-feedback">
+                    <h2 id="unchosen-feedback-title" class="label"></h2>
+                    <div class="feedback-options">
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-irrelevant" name="feedback" value="irrelevant">
+                            <label for="fb-irrelevant">Contains <strong>irrelevant information</strong> (not grounded in the situation or unrelated to the keyword)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-verbose" name="feedback" value="verbose">
+                            <label for="fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-false" name="feedback" value="false">
+                            <label for="fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-over" name="feedback" value="over-interpretation">
+                            <label for="fb-over"><strong>Over-interpretation</strong> (adds information not supported by the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-lacks" name="feedback" value="lacks-info">
+                            <label for="fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="fb-unclear" name="feedback" value="unclear">
+                            <label for="fb-unclear"><strong>Hard to understand</strong> (unclear wording or poorly organized structure)</label>
+                        </div>
+                        <div class="feedback-choice feedback-none-choice">
+                            <input type="checkbox" id="fb-none" name="feedback" value="none">
+                            <label for="fb-none"><strong>None of them</strong>:</label>
+                            <input type="text" id="fb-none-text" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="prev-button">Previous</button>
+                    <button class="next-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Part 4: Final Question (Initially Hidden) -->
+            <div id="part4-container" style="display: none;">
+                <div class="answer-section">
+                    <h2 class="label">Answer:</h2>
+                    <textarea id="final-answer-text" rows="6" placeholder="Enter your answer here..."></textarea>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="no-specific-final-answer">
+                        <label for="no-specific-final-answer">Nothing specific.</label>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="prev-button">Previous</button>
+                    <button class="next-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Part 7: Emotion Question (Initially Hidden) -->
+            <div id="part7-container" style="display: none;">
+                <div class="answer-section">
+                    <h2 class="label">Answer:</h2>
+                    <textarea id="part7-answer-text" rows="6" placeholder="Enter your answer here..."></textarea>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="no-specific-part7-answer">
+                        <label for="no-specific-part7-answer">Nothing specific.</label>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="prev-button">Previous</button>
+                    <button class="next-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Start Container -->
+            <div id="start-container">
+                <div class="welcome-card">
+                    <div class="welcome-header">
+                        <h1>Experiment 2: LLM Scene Abstraction Evaluation</h1>
+                        <p>Welcome to Experiment 2! In this study, you will read a sentence describing a situation with a specific keyword and answer <b>three questions</b> about the <span class="highlight">keyword</span>.</p>
+                    </div>
+
+                    <div class="welcome-sections">
+                        <div class="welcome-section">
+                            <div class="welcome-section-title">
+                                <h2>1) Events</h2>
+                                <p><b>What happened</b> with the <span class="highlight">&lt;keyword&gt;</span> in the situation? What did they do, or what occurred to them?</p>
+                            </div>
+                        </div>
+                        <div class="welcome-section">
+                            <div class="welcome-section-title">
+                                <h2>2) Properties</h2>
+                                <p>What are the <b>prominent properties</b> of the <span class="highlight">&lt;keyword&gt;</span> in this situation? Which properties feel most meaningful?</p>
+                            </div>
+                        </div>
+                        <div class="welcome-section">
+                            <div class="welcome-section-title">
+                                <h2>3) Emotions</h2>
+                                <p>Which <b>emotions or wishes</b> does the <span class="highlight">&lt;keyword&gt;</span> evoke in the situation?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="welcome-summary">
+                        <p>After writing <b>your own answers</b>, you will be shown <b>two answers generated by a large language model</b>. Your task will then be to:</p>
+                        <ol>
+                            <li><b>Choose</b> which of the two model-generated answers is better.</li>
+                            <li><b>Rate</b> how satisfied you are with the answer you chose.</li>
+                            <li><b>Identify</b> any problems in the answer you did not choose.</li>
+                        </ol>
+                    </div>
+                    <button id="start-experiment-button">Start Experiment</button>
+                </div>
+            </div>
+
+            <!-- Completion Message Container -->
+            <div id="completion-container" style="display: none;">
+                 <div class="welcome-card">
+                    <div class="welcome-header">
+                        <h1>Experiment Complete</h1>
+                        <p>Thank you for your participation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
