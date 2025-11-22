@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const contextQuestionContainer = document.getElementById('context-question-container');
     const contextContentEl = document.querySelector('.context-content');
     const part1QuestionContainer = document.getElementById('part1-question-container');
+    const part4QuestionContainer = document.getElementById('part4-question-container');
+    const part7QuestionContainer = document.getElementById('part7-question-container');
     const tocList = document.getElementById('toc-list');
 
     const part1Container = document.getElementById('part1-container');
@@ -181,7 +183,18 @@ document.addEventListener('DOMContentLoaded', () => {
             part1QuestionContainer.appendChild(contextQuestionContainer);
             question = trial.question;
             part1Container.style.display = 'block';
-        } else {
+        } else if (part === 4) {
+            contextQuestionContainer.querySelector('hr').style.display = 'none';
+            part4QuestionContainer.appendChild(contextQuestionContainer);
+            question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
+            part4Container.style.display = 'block';
+        } else if (part === 7) {
+            contextQuestionContainer.querySelector('hr').style.display = 'none';
+            part7QuestionContainer.appendChild(contextQuestionContainer);
+            question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
+            part7Container.style.display = 'block';
+        }
+        else { // parts 2, 3, 5, 6, 8, 9
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
             if (part === 2) {
@@ -190,18 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (part === 3) {
                 question = trial.question;
                 part3Container.style.display = 'block';
-            } else if (part === 4) {
-                question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
-                part4Container.style.display = 'block';
             } else if (part === 5) {
                 question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
                 part2Container.style.display = 'block';
             } else if (part === 6) {
                 question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
                 part3Container.style.display = 'block';
-            } else if (part === 7) {
-                question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
-                part7Container.style.display = 'block';
             } else if (part === 8) {
                 question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
                 part2Container.style.display = 'block';
