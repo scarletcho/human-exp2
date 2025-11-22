@@ -175,9 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
             question = trial.question;
             part1Container.style.display = 'block';
         } else {
-            mainWrapper.style.maxWidth = '1200px';
-            mainPanel.style.width = '60%';
-            contextPanel.style.width = '40%';
+            mainWrapper.style.maxWidth = '1000px'; // Changed from '1200px'
+            mainPanel.style.width = '50%'; // Changed from '60%'
+            contextPanel.style.width = '50%'; // Changed from '40%'
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
             if (part === 2) {
