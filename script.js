@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const part4QuestionContainer = document.getElementById('part4-question-container');
     const part7QuestionContainer = document.getElementById('part7-question-container');
     const tocList = document.getElementById('toc-list');
+    const contextUserAnswer = document.getElementById('context-user-answer');
 
     const part1Container = document.getElementById('part1-container');
     const part2Container = document.getElementById('part2-container');
@@ -172,15 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
             mainWrapper.style.maxWidth = '1000px';
             mainPanel.style.width = '50%';
             contextPanel.style.width = '50%';
-            const existingContextUserAnswer = contextContentEl.querySelector('#context-user-answer');
-            if (existingContextUserAnswer) {
-                existingContextUserAnswer.style.display = 'none';
-            }
+            contextUserAnswer.style.display = 'none'; // Hide for these parts
         } else { // parts 2, 3, 5, 6, 8, 9
             mainWrapper.style.maxWidth = '1200px';
             mainPanel.style.width = '60%';
             contextPanel.style.width = '40%';
-            // The contextUserAnswer will be appended and shown below
+            contextUserAnswer.style.display = 'block'; // Show for these parts
         }
 
         if (part === 1) {
@@ -202,12 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else { // parts 2, 3, 5, 6, 8, 9
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
-            // Get context-user-answer from part2Container and append it
-            const contextUserAnswer = part2Container.querySelector('#context-user-answer');
-            if (contextUserAnswer) {
-                contextContentEl.appendChild(contextUserAnswer);
-                contextUserAnswer.style.display = 'block';
-            }
             if (part === 2) {
                 question = trial.question;
                 part2Container.style.display = 'block';
