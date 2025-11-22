@@ -158,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         contextPanel.style.display = 'flex';
-        mainPanel.style.width = '60%';
         mainPanel.style.padding = '20px';
 
         const trial = trials[trialIndex];
@@ -166,18 +165,23 @@ document.addEventListener('DOMContentLoaded', () => {
         contextSituationEl.innerHTML = getHighlightedHTML(trial.situation, trial.keyword, false);
 
         let question = '';
-        if (part === 1) {
+
+        if (part === 1 || part === 4 || part === 7) {
             mainWrapper.style.maxWidth = '1000px';
             mainPanel.style.width = '50%';
             contextPanel.style.width = '50%';
+        } else { // parts 2, 3, 5, 6, 8, 9
+            mainWrapper.style.maxWidth = '1200px';
+            mainPanel.style.width = '60%';
+            contextPanel.style.width = '40%';
+        }
+
+        if (part === 1) {
             contextQuestionContainer.querySelector('hr').style.display = 'none';
             part1QuestionContainer.appendChild(contextQuestionContainer);
             question = trial.question;
             part1Container.style.display = 'block';
         } else {
-            mainWrapper.style.maxWidth = '1000px'; // Changed from '1200px'
-            mainPanel.style.width = '50%'; // Changed from '60%'
-            contextPanel.style.width = '50%'; // Changed from '40%'
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
             if (part === 2) {
