@@ -292,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else { // parts 2, 3, 5, 6, 8, 9
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
-            contextContentEl.appendChild(contextUserAnswer);
             if (part === 2) {
                 question = trial.question;
                 part2Container.style.display = 'block';
@@ -396,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.satisfaction);
         } else if (part === 3) {
+            refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
             const { candidateChoice } = trialAnswers.part2;
             const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
             finalReviewSection.innerHTML = `
@@ -448,6 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.satisfaction);
         } else if (part === 6) {
+            refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
             const { candidateChoice } = trialAnswers.part5;
             const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
             finalReviewSection.innerHTML = `
@@ -499,6 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.satisfaction);
         } else if (part === 9) {
+            refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
             const { candidateChoice } = trialAnswers.part8;
             const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
             finalReviewSection.innerHTML = `
