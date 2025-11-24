@@ -329,8 +329,13 @@ body {
     background-color: #f8d7da !important;
 }
 
+.highlight-placeholder {
+    color: #d9480f;
+    font-weight: 600;
+}
+
 /* Button Styles */
-#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, .prev-button, .next-button {
+#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, #next-instruction-button, .prev-button, .next-button {
     display: block;
     width: 100%;
     margin-top: 20px;

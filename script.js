@@ -114,7 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const completionContainer = document.getElementById('completion-container');
     const startContainer = document.getElementById('start-container');
     const instructionContainer = document.getElementById('instruction-container');
+    const instructionContainer2 = document.getElementById('instruction-container-2');
     const startExperimentButton = document.getElementById('start-experiment-button');
+    const nextInstructionButton = document.getElementById('next-instruction-button');
     const beginExperimentButton = document.getElementById('begin-experiment-button');
 
     // Part 1
@@ -188,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         completionContainer.style.display = 'none';
         startContainer.style.display = 'none';
         instructionContainer.style.display = 'none';
+        instructionContainer2.style.display = 'none';
 
         if (trialIndex >= trials.length) {
             contextPanel.style.display = 'none';
@@ -562,8 +565,13 @@ document.addEventListener('DOMContentLoaded', () => {
         instructionContainer.style.display = 'block';
     });
 
-    beginExperimentButton.addEventListener('click', () => {
+    nextInstructionButton.addEventListener('click', () => {
         instructionContainer.style.display = 'none';
+        instructionContainer2.style.display = 'block';
+    });
+
+    beginExperimentButton.addEventListener('click', () => {
+        instructionContainer2.style.display = 'none';
         showView(currentTrialIndex, currentPart);
     });
 
@@ -600,4 +608,5 @@ document.addEventListener('DOMContentLoaded', () => {
     part7Container.style.display = 'none';
     completionContainer.style.display = 'none';
     instructionContainer.style.display = 'none';
+    instructionContainer2.style.display = 'none';
 });
