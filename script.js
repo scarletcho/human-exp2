@@ -193,6 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTOC() {
         const keywordContainers = tocList.querySelectorAll('.toc-keyword-container');
         keywordContainers.forEach((container, index) => {
+            const trialAnswers = userAnswers[index];
+            const isCompleted = Object.keys(trialAnswers).every(part => trialAnswers[part] && Object.keys(trialAnswers[part]).length > 0);
+            const isInProgress = Object.keys(trialAnswers).some(part => trialAnswers[part] && Object.keys(trialAnswers[part]).length > 0);
+
+            container.classList.remove('status-completed', 'status-in-progress', 'status-not-started');
+
+            if (isCompleted) {
+                container.classList.add('status-completed');
+            } else if (isInProgress) {
+                container.classList.add('status-in-progress');
+            } else {
+                container.classList.add('status-not-started');
+            }
+
             if (index === currentTrialIndex) {
                 container.classList.add('active');
                 const questionItems = container.querySelectorAll('li');

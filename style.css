@@ -51,6 +51,20 @@ body {
     color: #ffffff;
 }
 
+.toc-keyword-container.status-completed .toc-keyword {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.toc-keyword-container.status-in-progress .toc-keyword {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.toc-keyword-container.status-not-started .toc-keyword {
+    background-color: #e0e0e0;
+}
+
 .toc-questions-list {
     display: none;
     flex-direction: column;
