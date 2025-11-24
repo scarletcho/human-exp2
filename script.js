@@ -18,20 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            keyword: "dog",
-            situation: "The dog wagged its tail excitedly as the owner reached for the leash.",
-            question: "Q: What was the dog's reaction to the owner's action?",
+            keyword: "diner",
+            situation: "Dogs aren't allowed in the diner.",
+            question: "Q: What happened with the diner in the situation? What did they do or what occurred to them?",
             candidates: {
-                A: "• The dog showed happiness.\n",
-                B: "• The dog's tail moved back and forth, indicating a positive emotional state in response to the owner's action."
+                A: "• Dogs are not permitted in them.",
+                B: "- Something happens because of: the diner enforces a no-dogs policy\n- This can be prevented by: presence of dogs, lack of enforcement\n- Situations often happen before: customers enter the diner\n- This typically happens after: customers are informed of the policy\n- This happens to others afterward: customers may leave dogs outside, some may feel disappointed"
             },
             candidates2: {
-                A: "• They can evoke strong memories or emotions in individuals\n• They are often associated with specific imagery or symbolism",
-                B: "• It's used for: can be observed in the sky\n• It has the quality of: is black, is a bird, is often associated with omens\n• It's made of: feathers, beak, wings\n• It's typically found at: in the sky, outdoors\n• It's capable of: flying, making sounds, scavenging"
+                A: "• They maintain specific rules for hygiene and customer comfort.\n• They are social spaces focused on dining experiences.",
+                B: "- It's used for: serves food and drinks\n- It has the quality of: public eating establishment, has seating\n- It's typically found at: located in a commercial area"
             },
             candidates3: {
-                A: "• Joy and excitement\n• Anticipation for a walk",
-                B: "• It evokes: happiness, eagerness\n• It makes one wish: to go for a walk"
+                A: "None",
+                B: "- Others want to: to maintain a clean environment, to comply with health regulations"
             }
         },
         {
