@@ -330,7 +330,7 @@ body {
 }
 
 /* Button Styles */
-#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, .prev-button, .next-button {
+#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, .prev-button, .next-button {
     display: block;
     width: 100%;
     margin-top: 20px;
