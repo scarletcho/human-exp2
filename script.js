@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (part === 7) {
             contextQuestionContainer.querySelector('hr').style.display = 'none';
             part7QuestionContainer.appendChild(contextQuestionContainer);
-            question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
+            question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
             part7Container.style.display = 'block';
         }
         else { // parts 2, 3, 5, 6, 8, 9
@@ -294,10 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
                 part3Container.style.display = 'block';
             } else if (part === 8) {
-                question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
+                question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
                 part2Container.style.display = 'block';
             } else if (part === 9) {
-                question = `Q: Which emotions or wishes do the <span class="highlight">${trial.keyword}s</span> evoke in the situation?`;
+                question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
                 part3Container.style.display = 'block';
             }
         }
