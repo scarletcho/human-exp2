@@ -35,20 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            keyword: "car",
-            situation: "The car sputtered and then stalled in the middle of the intersection.",
-            question: "Q: What problem did the car experience?",
+            keyword: "cigar",
+            situation: "Forster was so nervous that his hand shook as he lit his cigar.",
+            question: "Q: What happened with the cigar in the situation? What did they do or what occurred to them?",
             candidates: {
-                A: "• The car stopped working.\n",
-                B: "• The vehicle's engine ceased to operate unexpectedly while in a traffic crossing."
+                A: "• PersonX lights it",
+                B: "• Something happens because of: the cigar is lit to be smoked\n• This can be prevented by: lack of matches or lighter, wet conditions\n• This includes these steps: the cigar is taken out, the cigar is lit, the cigar is smoked\n• Situations often happen before: the cigar is smoked\n• This typically happens after: the cigar is extinguished\n• This happens to the person in the scene afterward: PersonX feels nervous while lighting the cigar\n• This happens to others afterward: others may notice the smell of smoke"
             },
             candidates2: {
-                A: "• They can evoke strong memories or emotions in individuals\n• They are often associated with specific imagery or symbolism",
-                B: "• It's used for: can be observed in the sky\n• It has the quality of: is black, is a bird, is often associated with omens\n• It's made of: feathers, beak, wings\n• It's typically found at: in the sky, outdoors\n• It's capable of: flying, making sounds, scavenging"
+                A: "• It can symbolize relaxation or indulgence\n• It may serve as a coping mechanism in stressful situations",
+                B: "• It's used for: used for smoking\n• It has the quality of: cylindrical, made of tobacco\n• It's made of: tobacco leaves, wrapper\n• It's typically found at: in a person's hand, in an ashtray"
             },
             candidates3: {
-                A: "• Frustration and stress\n• A desire for the car to work",
-                B: "• It evokes: annoyance, anxiety\n• It makes one wish: for the car to start again"
+                A: "• Tension (The act of lighting a cigar contrasts with the nervousness of PersonX.)",
+                B: "None"
             }
         }
     ];
