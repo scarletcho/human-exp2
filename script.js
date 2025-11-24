@@ -50,6 +50,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 A: "• Tension (The act of lighting a cigar contrasts with the nervousness of PersonX.)",
                 B: "None"
             }
+        },
+        {
+            keyword: "summer",
+            situation: "It's a Shangri-La of lush, manicured hedgerows, $75,000 summer rentals and vacationing celebrities.",
+            question: "Q: What happened with summer in the situation? What did they do or what occurred to them?",
+            candidates: {
+                A: "• PlaceX is a destination during summer\n• Celebrities vacation in PlaceX during summer",
+                B: "• Something happens because of: summer brings warm weather and vacation opportunities\n• This includes these steps: people rent summer homes, celebrities visit, events are planned\n• Situations often happen before: summer leads to fall\n• This typically happens after: summer ends\n• This happens to others afterward: increased tourism, higher rental prices"
+            },
+            candidates2: {
+                A: "• It is associated with leisure and relaxation\n• It signifies a peak season for tourism and luxury experiences",
+                B: "• It's used for: associated with vacations and leisure activities\n• It has the quality of: warm, vibrant, seasonal\n• It's typically found at: vacation destinations, coastal areas"
+            },
+            candidates3: {
+                A: "None",
+                B: "• Others want to: to enjoy summer activities, to vacation"
+            }
         }
     ];
 
