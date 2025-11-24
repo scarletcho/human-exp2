@@ -43,6 +43,7 @@ body {
     border-radius: 4px;
     background-color: #e0e0e0;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 .toc-keyword-container.active .toc-keyword {
@@ -51,13 +52,17 @@ body {
 }
 
 .toc-questions-list {
-    display: flex;
+    display: none;
     flex-direction: column;
     list-style: none;
     padding: 0;
     margin: 0;
     position: relative;
     padding-left: 20px;
+}
+
+.toc-keyword-container.active .toc-questions-list {
+    display: flex;
 }
 
 .toc-questions-list::before {

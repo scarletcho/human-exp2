@@ -158,6 +158,13 @@ document.addEventListener('DOMContentLoaded', () => {
             keywordEl.classList.add('toc-keyword');
             keywordEl.textContent = trial.keyword;
             keywordEl.dataset.index = index;
+            keywordEl.addEventListener('click', () => {
+                const currentlyActive = document.querySelector('.toc-keyword-container.active');
+                if (currentlyActive && currentlyActive !== keywordContainer) {
+                    currentlyActive.classList.remove('active');
+                }
+                keywordContainer.classList.toggle('active');
+            });
             keywordContainer.appendChild(keywordEl);
 
             const questionsList = document.createElement('ul');
