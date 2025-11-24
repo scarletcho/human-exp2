@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             keyword: "pigeon",
             situation: "I guess Jason's parents let his pigeons loose, and they're taking over the neighborhood, pooping all over everything.",
-            question: "Q: What happened with the pigeons in the situation? What did they do or what occurred to them?",
+            question: "Q: <b>What happened</b> with the pigeons in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• They are released into the neighborhood\n• They cause mess by leaving droppings",
                 B: "• Something happens because of: the pigeons are released into the neighborhood\n• This can be prevented by: being confined, lack of food\n• This includes these steps: pigeons fly away, pigeons land, pigeons poop\n• Situations often happen before: pigeons settle in the neighborhood\n• This typically happens after: pigeons cause mess in the area\n• This happens to others afterward: the neighborhood becomes messy, people may be annoyed."
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             keyword: "diner",
             situation: "Dogs aren't allowed in the diner.",
-            question: "Q: What happened with the diner in the situation? What did they do or what occurred to them?",
+            question: "Q: <b>What happened</b> with the diner in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• Dogs are not permitted in them.",
                 B: "• Something happens because of: the diner enforces a no-dogs policy\n• This can be prevented by: presence of dogs, lack of enforcement\n• Situations often happen before: customers enter the diner\n• This typically happens after: customers are informed of the policy\n• This happens to others afterward: customers may leave dogs outside, some may feel disappointed"
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             keyword: "cigar",
             situation: "Forster was so nervous that his hand shook as he lit his cigar.",
-            question: "Q: What happened with the cigar in the situation? What did they do or what occurred to them?",
+            question: "Q: <b>What happened</b> with the cigar in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• PersonX lights it",
                 B: "• Something happens because of: the cigar is lit to be smoked\n• This can be prevented by: lack of matches or lighter, wet conditions\n• This includes these steps: the cigar is taken out, the cigar is lit, the cigar is smoked\n• Situations often happen before: the cigar is smoked\n• This typically happens after: the cigar is extinguished\n• This happens to the person in the scene afterward: PersonX feels nervous while lighting the cigar\n• This happens to others afterward: others may notice the smell of smoke"
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             keyword: "summer",
             situation: "It's a Shangri-La of lush, manicured hedgerows, $75,000 summer rentals and vacationing celebrities.",
-            question: "Q: What happened with summer in the situation? What did they do or what occurred to them?",
+            question: "Q: <b>What happened</b> with summer in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• PlaceX is a destination during summer\n• Celebrities vacation in PlaceX during summer",
                 B: "• Something happens because of: summer brings warm weather and vacation opportunities\n• This includes these steps: people rent summer homes, celebrities visit, events are planned\n• Situations often happen before: summer leads to fall\n• This typically happens after: summer ends\n• This happens to others afterward: increased tourism, higher rental prices"
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             keyword: "agony",
             situation: "By that time we were halfway there and I was in such agony and so mad at Dr. Dana for leaving me that I couldn't think about I could n't think about anything else.",
-            question: "Q: What happened with agony in the situation? What did they do or what occurred to them?",
+            question: "Q: <b>What happened</b> with agony in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• PersonX suffers from intense pain\n• PersonX's thoughts are dominated by agony",
                 B: "• Something happens because of: the situation or condition leads to feelings of agony\n• This can be prevented by: distraction from pain, support from others\n• The person in the scene acts because: PersonX's reason for feeling agony is the situation\n• Situations often happen before: PersonX seeks relief from agony\n• This typically happens after: PersonX continues to feel agony\n• This happens to the person in the scene afterward: PersonX remains in a state of distress\n• This happens to others afterward: others may feel helpless or sympathetic"
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (part === 7) {
             contextQuestionContainer.querySelector('hr').style.display = 'none';
             part7QuestionContainer.appendChild(contextQuestionContainer);
-            question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
+            question = `Q: Which <b>emotions or wishes</b> does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
             part7Container.style.display = 'block';
         }
         else { // parts 2, 3, 5, 6, 8, 9
@@ -294,10 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
                 part3Container.style.display = 'block';
             } else if (part === 8) {
-                question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
+                question = `Q: Which <b>emotions or wishes</b> does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
                 part2Container.style.display = 'block';
             } else if (part === 9) {
-                question = `Q: Which emotions or wishes does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
+                question = `Q: Which <b>emotions or wishes</b> does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
                 part3Container.style.display = 'block';
             }
         }
