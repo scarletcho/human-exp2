@@ -67,6 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 A: "None",
                 B: "• Others want to: to enjoy summer activities, to vacation"
             }
+        },
+        {
+            keyword: "agony",
+            situation: "By that time we were halfway there and I was in such agony and so mad at Dr. Dana for leaving me that I couldn't think about I could n't think about anything else.",
+            question: "Q: What happened with agony in the situation? What did they do or what occurred to them?",
+            candidates: {
+                A: "• PersonX suffers from intense pain\n• PersonX's thoughts are dominated by agony",
+                B: "• Something happens because of: the situation or condition leads to feelings of agony\n• This can be prevented by: distraction from pain, support from others\n• The person in the scene acts because: PersonX's reason for feeling agony is the situation\n• Situations often happen before: PersonX seeks relief from agony\n• This typically happens after: PersonX continues to feel agony\n• This happens to the person in the scene afterward: PersonX remains in a state of distress\n• This happens to others afterward: others may feel helpless or sympathetic"
+            },
+            candidates2: {
+                A: "• It can impair cognitive function and focus\n• It often coexists with feelings of frustration or anger",
+                B: "• It has the quality of: intense pain, emotional distress\n• It's capable of: overwhelming focus on pain, affecting thoughts"
+            },
+            candidates3: {
+                A: "• Anger (Directed towards PersonY for leaving them in pain.)",
+                B: "• The person in the scene feels: feels mad, frustrated\n• Others feel: others may feel concern or confusion\n• The person in the scene wants to: to find relief from agony\n• Others want to: to help PersonX or understand their pain"
+            }
         }
     ];
 
