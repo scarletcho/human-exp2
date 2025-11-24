@@ -33,8 +33,8 @@ body {
 
 .toc-keyword-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .toc-keyword {
@@ -42,6 +42,7 @@ body {
     padding: 8px 12px;
     border-radius: 4px;
     background-color: #e0e0e0;
+    flex-shrink: 0;
 }
 
 .toc-keyword-container.active .toc-keyword {
@@ -51,9 +52,22 @@ body {
 
 .toc-questions-list {
     display: flex;
+    flex-direction: column;
     list-style: none;
     padding: 0;
-    margin: 5px 0 0 0;
+    margin: 0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.toc-questions-list::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background-color: #e0e0e0;
 }
 
 .toc-questions-list li {
@@ -63,6 +77,19 @@ body {
     font-size: 12px;
     font-weight: 500;
     transition: background-color 0.2s;
+    position: relative;
+    margin-left: 10px;
+}
+
+.toc-questions-list li::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #e0e0e0;
+    transform: translateY(-50%);
 }
 
 .toc-questions-list li:hover {
