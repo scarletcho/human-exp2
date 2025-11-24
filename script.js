@@ -151,31 +151,65 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateTOC() {
         tocList.innerHTML = '';
         trials.forEach((trial, index) => {
-            const li = document.createElement('li');
-            li.textContent = trial.keyword;
-            li.dataset.index = index;
-            li.addEventListener('click', handleTOCClick);
-            tocList.appendChild(li);
+            const keywordContainer = document.createElement('div');
+            keywordContainer.classList.add('toc-keyword-container');
+
+            const keywordEl = document.createElement('div');
+            keywordEl.classList.add('toc-keyword');
+            keywordEl.textContent = trial.keyword;
+            keywordEl.dataset.index = index;
+            keywordContainer.appendChild(keywordEl);
+
+            const questionsList = document.createElement('ul');
+            questionsList.classList.add('toc-questions-list');
+
+            const questions = [
+                { name: 'Event', part: 1 },
+                { name: 'Property', part: 4 },
+                { name: 'Emotion', part: 7 }
+            ];
+
+            questions.forEach(q => {
+                const questionEl = document.createElement('li');
+                questionEl.textContent = q.name;
+                questionEl.dataset.index = index;
+                questionEl.dataset.part = q.part;
+                questionEl.addEventListener('click', handleTOCClick);
+                questionsList.appendChild(questionEl);
+            });
+
+            keywordContainer.appendChild(questionsList);
+            tocList.appendChild(keywordContainer);
         });
     }
 
     function updateTOC() {
-        const items = tocList.querySelectorAll('li');
-        items.forEach((item, index) => {
+        const keywordContainers = tocList.querySelectorAll('.toc-keyword-container');
+        keywordContainers.forEach((container, index) => {
             if (index === currentTrialIndex) {
-                item.classList.add('active');
+                container.classList.add('active');
+                const questionItems = container.querySelectorAll('li');
+                questionItems.forEach(item => {
+                    const part = parseInt(item.dataset.part, 10);
+                    if (part === currentPart) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
             } else {
-                item.classList.remove('active');
+                container.classList.remove('active');
             }
         });
     }
 
     function handleTOCClick(event) {
         const index = parseInt(event.target.dataset.index, 10);
-        if (index !== currentTrialIndex) {
+        const part = parseInt(event.target.dataset.part, 10);
+        if (index !== currentTrialIndex || part !== currentPart) {
             saveCurrentState();
             currentTrialIndex = index;
-            currentPart = 1;
+            currentPart = part;
             showView(currentTrialIndex, currentPart);
         }
     }

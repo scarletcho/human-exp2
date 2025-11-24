@@ -26,31 +26,54 @@ body {
 }
 
 #toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
-#toc-list li {
+.toc-keyword-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toc-keyword {
+    font-weight: 600;
     padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+}
+
+.toc-keyword-container.active .toc-keyword {
+    background-color: #1877f2;
+    color: #ffffff;
+}
+
+.toc-questions-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+}
+
+.toc-questions-list li {
+    padding: 4px 8px;
     cursor: pointer;
     border-radius: 4px;
-    margin-right: 10px;
+    font-size: 12px;
     font-weight: 500;
     transition: background-color 0.2s;
 }
 
-#toc-list li:hover {
+.toc-questions-list li:hover {
     background-color: #e0e0e0;
 }
 
-#toc-list li.active {
+.toc-questions-list li.active {
     background-color: #1877f2;
     color: #ffffff;
-    font-weight: 600;
 }
+
 
 #main-wrapper {
     display: flex;
