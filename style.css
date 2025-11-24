@@ -93,7 +93,6 @@ body {
     word-wrap: break-word;
     line-height: 1.5;
     font-family: 'Courier New', Courier, monospace; /* Changed font to Courier New */
-    font-style: italic;
 }
 
 #context-question {
