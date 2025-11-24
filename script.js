@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const trials = [
         {
-            keyword: "crow",
-            situation: "I remember it exactly, There were crows, black crows, They were flyin' towards me, Ruby, I thought I was seein' --",
-            question: "Q: What happened with the crows in the situation? What did they do or what occurred to them?",
+            keyword: "pigeon",
+            situation: "I guess Jason's parents let his pigeons loose, and they're taking over the neighborhood, pooping all over everything.",
+            question: "Q: What happened with the pigeons in the situation? What did they do or what occurred to them?",
             candidates: {
-                A: "• PersonX sees them flying towards them\n• They are part of a significant memory for PersonX",
-                B: "• Something happens because of: the crow flies towards PersonX\n• This includes these steps: the crow takes off, the crow flaps its wings, the crow approaches\n• Situations often happen before: the crow lands or passes by\n• This typically happens after: the crow is seen flying away\n• This happens to others afterward: PersonX feels a sense of awe or fear"
+                A: "• They are released into the neighborhood\n• They cause mess by leaving droppings",
+                B: "- Something happens because of: the pigeons are released into the neighborhood\n- This can be prevented by: being confined, lack of food\n- This includes these steps: pigeons fly away, pigeons land, pigeons poop\n- Situations often happen before: pigeons settle in the neighborhood\n- This typically happens after: pigeons cause mess in the area\n- This happens to others afterward: the neighborhood becomes messy, people may be annoyed."
             },
             candidates2: {
-                A: "• They can evoke strong memories or emotions in individuals\n• They are often associated with specific imagery or symbolism",
-                B: "• It's used for: can be observed in the sky\n• It has the quality of: is black, is a bird, is often associated with omens\n• It's made of: feathers, beak, wings\n• It's typically found at: in the sky, outdoors\n• It's capable of: flying, making sounds, scavenging"
+                A: "• They can become a nuisance when uncontrolled\n• They are often associated with urban environments",
+                B: "- It's used for: can be kept as pets, can be used for racing\n- It has the quality of: is a bird, can fly, can be noisy\n- It's made of: feathers, beak, wings\n- It's typically found at: in the neighborhood, on rooftops\n- It's capable of: flying, nesting, foraging for food."
             },
             candidates3: {
-                A: "• Nostalgia (Their presence triggers a vivid recollection of the past.)",
-                B: "• Others want to: to fly closer, to land."
+                A: "• Frustration (Implied by the negative impact of their presence in the neighborhood.)",
+                B: "- Others want to: to find food, to settle in a new area."
             }
         },
         {
