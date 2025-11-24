@@ -6,15 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
             question: "Q: What happened with the pigeons in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• They are released into the neighborhood\n• They cause mess by leaving droppings",
-                B: "- Something happens because of: the pigeons are released into the neighborhood\n- This can be prevented by: being confined, lack of food\n- This includes these steps: pigeons fly away, pigeons land, pigeons poop\n- Situations often happen before: pigeons settle in the neighborhood\n- This typically happens after: pigeons cause mess in the area\n- This happens to others afterward: the neighborhood becomes messy, people may be annoyed."
+                B: "• Something happens because of: the pigeons are released into the neighborhood\n• This can be prevented by: being confined, lack of food\n• This includes these steps: pigeons fly away, pigeons land, pigeons poop\n• Situations often happen before: pigeons settle in the neighborhood\n• This typically happens after: pigeons cause mess in the area\n• This happens to others afterward: the neighborhood becomes messy, people may be annoyed."
             },
             candidates2: {
                 A: "• They can become a nuisance when uncontrolled\n• They are often associated with urban environments",
-                B: "- It's used for: can be kept as pets, can be used for racing\n- It has the quality of: is a bird, can fly, can be noisy\n- It's made of: feathers, beak, wings\n- It's typically found at: in the neighborhood, on rooftops\n- It's capable of: flying, nesting, foraging for food."
+                B: "• It's used for: can be kept as pets, can be used for racing\n• It has the quality of: is a bird, can fly, can be noisy\n• It's made of: feathers, beak, wings\n• It's typically found at: in the neighborhood, on rooftops\n• It's capable of: flying, nesting, foraging for food."
             },
             candidates3: {
                 A: "• Frustration (Implied by the negative impact of their presence in the neighborhood.)",
-                B: "- Others want to: to find food, to settle in a new area."
+                B: "• Others want to: to find food, to settle in a new area."
             }
         },
         {
@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
             question: "Q: What happened with the diner in the situation? What did they do or what occurred to them?",
             candidates: {
                 A: "• Dogs are not permitted in them.",
-                B: "- Something happens because of: the diner enforces a no-dogs policy\n- This can be prevented by: presence of dogs, lack of enforcement\n- Situations often happen before: customers enter the diner\n- This typically happens after: customers are informed of the policy\n- This happens to others afterward: customers may leave dogs outside, some may feel disappointed"
+                B: "• Something happens because of: the diner enforces a no-dogs policy\n• This can be prevented by: presence of dogs, lack of enforcement\n• Situations often happen before: customers enter the diner\n• This typically happens after: customers are informed of the policy\n• This happens to others afterward: customers may leave dogs outside, some may feel disappointed"
             },
             candidates2: {
                 A: "• They maintain specific rules for hygiene and customer comfort.\n• They are social spaces focused on dining experiences.",
-                B: "- It's used for: serves food and drinks\n- It has the quality of: public eating establishment, has seating\n- It's typically found at: located in a commercial area"
+                B: "• It's used for: serves food and drinks\n• It has the quality of: public eating establishment, has seating\n• It's typically found at: located in a commercial area"
             },
             candidates3: {
                 A: "None",
-                B: "- Others want to: to maintain a clean environment, to comply with health regulations"
+                B: "• Others want to: to maintain a clean environment, to comply with health regulations"
             }
         },
         {
