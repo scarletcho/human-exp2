@@ -292,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else { // parts 2, 3, 5, 6, 8, 9
             contextQuestionContainer.querySelector('hr').style.display = 'block';
             contextContentEl.appendChild(contextQuestionContainer);
+            contextContentEl.appendChild(contextUserAnswer);
             if (part === 2) {
                 question = trial.question;
                 part2Container.style.display = 'block';
