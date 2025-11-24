@@ -235,6 +235,43 @@
                 </div>
             </div>
 
+            <!-- Instruction Container -->
+            <div id="instruction-container" style="display: none;">
+                <div class="welcome-card">
+                    <div class="welcome-header">
+                        <h1>Instructions</h1>
+                        <p>When choosing the better answer, please consider the following criteria. A good answer should not contain any of the following:</p>
+                    </div>
+                    <div class="feedback-options">
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-irrelevant" name="instr-feedback" value="irrelevant" disabled>
+                            <label for="instr-fb-irrelevant">Contains <strong>irrelevant information</strong> (not grounded in the situation or unrelated to the keyword)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-verbose" name="instr-feedback" value="verbose" disabled>
+                            <label for="instr-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-false" name="instr-feedback" value="false" disabled>
+                            <label for="instr-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-over" name="instr-feedback" value="over-interpretation" disabled>
+                            <label for="instr-fb-over"><strong>Over-interpretation</strong> (adds information not supported by the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-lacks" name="instr-feedback" value="lacks-info" disabled>
+                            <label for="instr-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="instr-fb-unclear" name="instr-feedback" value="unclear" disabled>
+                            <label for="instr-fb-unclear"><strong>Hard to understand</strong> (unclear wording or poorly organized structure)</label>
+                        </div>
+                    </div>
+                    <button id="begin-experiment-button">Begin Experiment</button>
+                </div>
+            </div>
+
             <!-- Completion Message Container -->
             <div id="completion-container" style="display: none;">
                  <div class="welcome-card">
