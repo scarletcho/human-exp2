@@ -333,6 +333,30 @@ body {
     font-weight: 600;
 }
 
+.placeholder-guide {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.placeholder-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.placeholder-item:last-child {
+    border-bottom: none;
+}
+
+.placeholder-item span:first-child {
+    width: 150px;
+    flex-shrink: 0;
+}
+
 /* Button Styles */
 #submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, #next-instruction-button, .prev-button, .next-button {
     display: block;
