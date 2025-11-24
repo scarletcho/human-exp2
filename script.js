@@ -91,6 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPart = 1;
     let userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
 
+    const LOCAL_STORAGE_KEY = 'humanExpResponses';
+
+    // --- Local Storage Management ---
+    function saveResponsesToLocalStorage() {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userAnswers));
+        localStorage.setItem('currentTrialIndex', currentTrialIndex);
+        localStorage.setItem('currentPart', currentPart);
+    }
+
+    function loadResponsesFromLocalStorage() {
+        const savedResponses = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (savedResponses) {
+            userAnswers = JSON.parse(savedResponses);
+            currentTrialIndex = parseInt(localStorage.getItem('currentTrialIndex') || '0', 10);
+            currentPart = parseInt(localStorage.getItem('currentPart') || '1', 10);
+        }
+    }
+
     // --- DOM Elements ---
     const contextPanel = document.getElementById('context-panel');
     const mainPanel = document.getElementById('main-panel');
@@ -380,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
             trialAnswers.part9.unchosenFeedback = feedback;
             trialAnswers.part9.fbNoneText = fbNoneText.value;
         }
+        saveResponsesToLocalStorage(); // Save state after any change
     }
 
     function loadState(trialIndex, part) {
@@ -652,16 +671,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Initial Load ---
+    loadResponsesFromLocalStorage();
     generateTOC();
-    startContainer.style.display = 'block';
-    contextPanel.style.display = 'none';
-    mainPanel.style.width = '100%';
-    part1Container.style.display = 'none';
-    part2Container.style.display = 'none';
-    part3Container.style.display = 'none';
-    part4Container.style.display = 'none';
-    part7Container.style.display = 'none';
-    completionContainer.style.display = 'none';
-    instructionContainer.style.display = 'none';
-    instructionContainer2.style.display = 'none';
+    if (currentTrialIndex > 0 || currentPart > 1) {
+        // If there's saved progress, go directly to the last saved view
+        showView(currentTrialIndex, currentPart);
+    } else {
+        // Otherwise, start from the welcome page
+        startContainer.style.display = 'block';
+        contextPanel.style.display = 'none';
+        mainPanel.style.width = '100%';
+        part1Container.style.display = 'none';
+        part2Container.style.display = 'none';
+        part3Container.style.display = 'none';
+        part4Container.style.display = 'none';
+        part7Container.style.display = 'none';
+        completionContainer.style.display = 'none';
+        instructionContainer.style.display = 'none';
+        instructionContainer2.style.display = 'none';
+    }
 });
