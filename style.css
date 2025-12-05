@@ -1043,26 +1043,34 @@ body {
 
 }
 
+/* Instruction Page Readability Improvements */
+#instruction-container .welcome-header p,
+#instruction-container-2 .welcome-header p,
+#instruction-container-2 .placeholder-guide + p {
+    font-size: 20px;
+    line-height: 1.6;
+}
 
+#instruction-container .feedback-choice label {
+    font-size: 17px;
+}
 
+#instruction-container-2 .placeholder-guide {
+    font-size: 17px;
+}
 
+#instruction-container .feedback-choice strong {
+    color: #c0392b; /* A readable, distinct red */
+}
 
+#instruction-container-2 .placeholder-item span:last-child::before {
+    content: '→ ';
+    color: #777;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#instruction-container-2 .placeholder-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 15px;
+    border-radius: 6px;
+}
