@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Hide context panel immediately to prevent flash of unstyled content
+    // Hide the context panel as soon as the DOM is ready to prevent it from flashing.
     const contextPanel = document.getElementById('context-panel');
     if (contextPanel) {
         contextPanel.style.display = 'none';
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
         let experimentStarted = false;
 
-        // --- DOM Elements (re-get contextPanel inside main scope) ---
+        // --- DOM Elements ---
         const mainPanel = document.getElementById('main-panel');
         const mainWrapper = document.getElementById('main-wrapper');
         const contextKeywordEl = document.getElementById('context-keyword');
