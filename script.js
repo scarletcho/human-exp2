@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCurrentState();
         contextPanel.style.display = 'none';
         mainPanel.style.width = '100%';
-        mainWrapper.style.maxWidth = '900px';
+        mainWrapper.style.maxWidth = '1200px';
 
         part1Container.style.display = 'none';
         part2Container.style.display = 'none';
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let question = '';
 
         if (part === 1 || part === 4 || part === 7) {
-            mainWrapper.style.maxWidth = '1000px';
+            mainWrapper.style.maxWidth = '1200px';
             mainPanel.style.width = '50%';
             contextPanel.style.width = '50%';
             contextUserAnswer.style.display = 'none'; // Hide for these parts
