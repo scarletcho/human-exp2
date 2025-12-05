@@ -235,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showInstructions() {
         saveCurrentState();
+        instructionButton.style.display = 'none';
         contextPanel.style.display = 'none';
         mainPanel.style.width = '100%';
         mainWrapper.style.maxWidth = '900px';
@@ -251,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- View Management ---
     function showView(trialIndex, part) {
+        instructionButton.style.display = 'block';
         part1Container.style.display = 'none';
         part2Container.style.display = 'none';
         part3Container.style.display = 'none';
@@ -635,11 +637,13 @@ document.addEventListener('DOMContentLoaded', () => {
     startExperimentButton.addEventListener('click', () => {
         startContainer.style.display = 'none';
         instructionContainer.style.display = 'block';
+        instructionButton.style.display = 'none';
     });
 
     nextInstructionButton.addEventListener('click', () => {
         instructionContainer.style.display = 'none';
         instructionContainer2.style.display = 'block';
+        instructionButton.style.display = 'none';
         beginExperimentButton.textContent = "Resume Experiment";
     });
 
@@ -647,9 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     beginExperimentButton.addEventListener('click', () => {
         instructionContainer2.style.display = 'none';
-        if (beginExperimentButton.textContent.includes("Begin")) {
-            instructionButton.style.display = 'block';
-        }
         showView(currentTrialIndex, currentPart);
     });
 
@@ -678,6 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateTOC();
     // Start from the welcome page
     startContainer.style.display = 'block';
+    instructionButton.style.display = 'none';
     contextPanel.style.display = 'none';
     mainPanel.style.width = '100%';
     part1Container.style.display = 'none';
