@@ -385,7 +385,7 @@ body {
     background-color: #a0a0a0;
     cursor: not-allowed;
 }
-#fb-none-text {
+.feedback-none-text-input {
     margin-left: 5px;
     flex-grow: 1;
     border: 1px solid #ccd0d5;
@@ -393,7 +393,7 @@ body {
     padding: 4px 8px;
     font-size: 14px;
 }
-#fb-none-text:disabled {
+.feedback-none-text-input:disabled {
     background-color: #f0f2f5;
 }
 
