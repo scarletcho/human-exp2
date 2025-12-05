@@ -163,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startContainer.style.display = 'none';
             instructionContainer.style.display = 'none';
             instructionContainer2.style.display = 'none';
-
             if (trialIndex >= trials.length) {
                 contextPanel.style.display = 'none';
                 mainPanel.style.width = '100%';
@@ -171,16 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 completionContainer.style.display = 'block';
                 return;
             }
-
             contextPanel.style.display = 'flex';
             mainPanel.style.padding = '20px';
-
             const trial = trials[trialIndex];
             contextKeywordEl.textContent = trial.keyword;
             contextSituationEl.innerHTML = getHighlightedHTML(trial.situation, trial.keyword, false);
-
             let question = '';
-
             if (part === 1 || part === 4 || part === 7) {
                 mainWrapper.style.maxWidth = '1200px';
                 mainPanel.style.width = '50%';
@@ -192,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 contextPanel.style.width = '40%';
                 contextUserAnswer.style.display = 'block';
             }
-
             if (part === 1) {
                 contextQuestionContainer.querySelector('hr').style.display = 'none';
                 part1QuestionContainer.appendChild(contextQuestionContainer);
@@ -235,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             contextQuestionEl.innerHTML = getHighlightedHTML(question, trial.keyword, true);
-
             loadState(trialIndex, part);
             updateButtonStates();
             updateTOC();
