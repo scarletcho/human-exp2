@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startExperimentButton = document.getElementById('start-experiment-button');
     const nextInstructionButton = document.getElementById('next-instruction-button');
     const beginExperimentButton = document.getElementById('begin-experiment-button');
+    const instructionButton = document.getElementById('instruction-button');
 
     // Part 1
     const answerTextEl = document.getElementById('answer-text');
@@ -230,6 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPart = part;
             showView(currentTrialIndex, currentPart);
         }
+    }
+
+    function showInstructions() {
+        saveCurrentState();
+        contextPanel.style.display = 'none';
+        mainPanel.style.width = '100%';
+        mainWrapper.style.maxWidth = '900px';
+
+        part1Container.style.display = 'none';
+        part2Container.style.display = 'none';
+        part3Container.style.display = 'none';
+        part4Container.style.display = 'none';
+        part7Container.style.display = 'none';
+
+        instructionContainer.style.display = 'block';
+        beginExperimentButton.textContent = "Resume Experiment";
     }
 
     // --- View Management ---
@@ -623,10 +640,16 @@ document.addEventListener('DOMContentLoaded', () => {
     nextInstructionButton.addEventListener('click', () => {
         instructionContainer.style.display = 'none';
         instructionContainer2.style.display = 'block';
+        beginExperimentButton.textContent = "Resume Experiment";
     });
+
+    instructionButton.addEventListener('click', showInstructions);
 
     beginExperimentButton.addEventListener('click', () => {
         instructionContainer2.style.display = 'none';
+        if (beginExperimentButton.textContent.includes("Begin")) {
+            instructionButton.style.display = 'block';
+        }
         showView(currentTrialIndex, currentPart);
     });
 

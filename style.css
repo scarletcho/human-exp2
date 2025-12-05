@@ -31,6 +31,21 @@ body {
     gap: 10px;
 }
 
+#instruction-button {
+    background-color: #6c757d;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+#instruction-button:hover {
+    background-color: #5a6268;
+}
+
 .toc-keyword-container {
     display: flex;
     align-items: flex-start;
