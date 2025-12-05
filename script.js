@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const improvementCheckboxes = document.querySelectorAll('input[name="improvement-feedback"]');
     const improveFbNoneCheckbox = document.getElementById('improve-fb-none');
     const improveFbNoneText = document.getElementById('improve-fb-none-text');
+    const satisfactionAndFeedbackSection = document.getElementById('satisfaction-and-feedback-section');
 
     // Part 3
     const finalReviewSection = document.getElementById('final-review-section');
@@ -467,17 +468,19 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.candidateChoice);
 
             if (trialAnswers.part2.candidateChoice) {
+                satisfactionAndFeedbackSection.style.display = 'block';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = false;
                     radio.checked = radio.value === trialAnswers.part2.satisfaction;
                 });
                 loadImprovementFeedback(trialAnswers.part2);
             } else {
+                satisfactionAndFeedbackSection.style.display = 'none';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = true;
                     radio.checked = false;
                 });
-                improvementFeedback.style.display = 'none';
+                improvementFeedback.style.display = 'none'; // Ensure this is hidden if no candidate chosen
             }
         } else if (part === 3) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
@@ -533,17 +536,19 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.candidateChoice);
 
             if (trialAnswers.part5.candidateChoice) {
+                satisfactionAndFeedbackSection.style.display = 'block';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = false;
                     radio.checked = radio.value === trialAnswers.part5.satisfaction;
                 });
                 loadImprovementFeedback(trialAnswers.part5);
             } else {
+                satisfactionAndFeedbackSection.style.display = 'none';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = true;
                     radio.checked = false;
                 });
-                improvementFeedback.style.display = 'none';
+                improvementFeedback.style.display = 'none'; // Ensure this is hidden if no candidate chosen
             }
         } else if (part === 6) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
@@ -598,17 +603,19 @@ document.addEventListener('DOMContentLoaded', () => {
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.candidateChoice);
 
             if (trialAnswers.part8.candidateChoice) {
+                satisfactionAndFeedbackSection.style.display = 'block';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = false;
                     radio.checked = radio.value === trialAnswers.part8.satisfaction;
                 });
                 loadImprovementFeedback(trialAnswers.part8);
             } else {
+                satisfactionAndFeedbackSection.style.display = 'none';
                 satisfactionRadios.forEach(radio => {
                     radio.disabled = true;
                     radio.checked = false;
                 });
-                improvementFeedback.style.display = 'none';
+                improvementFeedback.style.display = 'none'; // Ensure this is hidden if no candidate chosen
             }
         } else if (part === 9) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
@@ -775,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
     noSpecificAnswerEl.addEventListener('change', () => { answerTextEl.disabled = noSpecificAnswerEl.checked; if (noSpecificAnswerEl.checked) answerTextEl.value = ''; saveCurrentState(); updateButtonStates(); });
 
     candidateRadios.forEach(radio => radio.addEventListener('change', () => {
+        satisfactionAndFeedbackSection.style.display = 'block';
         satisfactionRadios.forEach(r => r.disabled = false);
         saveCurrentState();
         updateButtonStates();

@@ -73,75 +73,77 @@
                         </div>
                     </div>
                 </div>
-                <div class="satisfaction-rating">
-                    <hr>
-                    <h2 class="label">Q: How satisfied are you with your chosen answer?</h2>
-                    <div class="satisfaction-options">
-                        <div class="satisfaction-choice">
-                            <input type="radio" id="satisfaction-5" name="satisfaction" value="5">
-                            <label for="satisfaction-5">
-                                <span class="satisfaction-level">5 (Perfectly satisfied:</span> fully accurate, clear, and appropriate)
-                            </label>
-                        </div>
-                        <div class="satisfaction-choice">
-                            <input type="radio" id="satisfaction-4" name="satisfaction" value="4">
-                            <label for="satisfaction-4">
-                                <span class="satisfaction-level">4 (Mostly satisfied:</span> generally satisfied, with only minor issues)
-                            </label>
-                        </div>
-                        <div class="satisfaction-choice">
-                            <input type="radio" id="satisfaction-3" name="satisfaction" value="3">
-                            <label for="satisfaction-3">
-                                <span class="satisfaction-level">3 (Acceptable:</span> adequate overall but clearly improvable)
-                            </label>
-                        </div>
-                        <div class="satisfaction-choice">
-                            <input type="radio" id="satisfaction-2" name="satisfaction" value="2">
-                            <label for="satisfaction-2">
-                                <span class="satisfaction-level">2 (Unsatisfied:</span> contains significant problems and only partially appropriate)
-                            </label>
-                        </div>
-                        <div class="satisfaction-choice">
-                            <input type="radio" id="satisfaction-1" name="satisfaction" value="1">
-                            <label for="satisfaction-1">
-                                <span class="satisfaction-level">1 (Not satisfied at all:</span> mostly inadequate or completely unusable)
-                            </label>
+                <div id="satisfaction-and-feedback-section" style="display: none;">
+                    <div class="satisfaction-rating">
+                        <hr>
+                        <h2 class="label">Q: How satisfied are you with your chosen answer?</h2>
+                        <div class="satisfaction-options">
+                            <div class="satisfaction-choice">
+                                <input type="radio" id="satisfaction-5" name="satisfaction" value="5">
+                                <label for="satisfaction-5">
+                                    <span class="satisfaction-level">5 (Perfectly satisfied:</span> fully accurate, clear, and appropriate)
+                                </label>
+                            </div>
+                            <div class="satisfaction-choice">
+                                <input type="radio" id="satisfaction-4" name="satisfaction" value="4">
+                                <label for="satisfaction-4">
+                                    <span class="satisfaction-level">4 (Mostly satisfied:</span> generally satisfied, with only minor issues)
+                                </label>
+                            </div>
+                            <div class="satisfaction-choice">
+                                <input type="radio" id="satisfaction-3" name="satisfaction" value="3">
+                                <label for="satisfaction-3">
+                                    <span class="satisfaction-level">3 (Acceptable:</span> adequate overall but clearly improvable)
+                                </label>
+                            </div>
+                            <div class="satisfaction-choice">
+                                <input type="radio" id="satisfaction-2" name="satisfaction" value="2">
+                                <label for="satisfaction-2">
+                                    <span class="satisfaction-level">2 (Unsatisfied:</span> contains significant problems and only partially appropriate)
+                                </label>
+                            </div>
+                            <div class="satisfaction-choice">
+                                <input type="radio" id="satisfaction-1" name="satisfaction" value="1">
+                                <label for="satisfaction-1">
+                                    <span class="satisfaction-level">1 (Not satisfied at all:</span> mostly inadequate or completely unusable)
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="improvement-feedback" style="display: none;">
-                    <hr>
-                    <h2 class="label feedback-question-title">Q: Why were you less than fully satisfied?</h2>
-                    <span class="subtitle">Select all that apply:</span>
-                    <div class="feedback-options">
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-irrelevant" name="improvement-feedback" value="irrelevant">
-                            <label for="improve-fb-irrelevant">Contains <strong>irrelevant information</strong> (not grounded in the situation or unrelated to the keyword)</label>
-                        </div>
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-verbose" name="improvement-feedback" value="verbose">
-                            <label for="improve-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
-                        </div>
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-false" name="improvement-feedback" value="false">
-                            <label for="improve-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
-                        </div>
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-over" name="improvement-feedback" value="over-interpretation">
-                            <label for="improve-fb-over"><strong>Over-interpretation</strong> (adds information not supported by the text)</label>
-                        </div>
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-lacks" name="improvement-feedback" value="lacks-info">
-                            <label for="improve-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
-                        </div>
-                        <div class="feedback-choice">
-                            <input type="checkbox" id="improve-fb-unclear" name="improvement-feedback" value="unclear">
-                            <label for="improve-fb-unclear"><strong>Hard to understand</strong> (unclear wording or poorly organized structure)</label>
-                        </div>
-                        <div class="feedback-choice feedback-none-choice">
-                            <input type="checkbox" id="improve-fb-none" name="improvement-feedback" value="none">
-                            <label for="improve-fb-none"><strong>Other</strong>:</label>
-                            <input type="text" id="improve-fb-none-text" class="feedback-none-text-input" disabled>
+                    <div id="improvement-feedback" style="display: none;" class="improvement-feedback-section">
+                        <hr>
+                        <h2 class="label feedback-question-title">Q: Why were you less than fully satisfied?</h2>
+                        <span class="subtitle">Select all that apply:</span>
+                        <div class="feedback-options">
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-irrelevant" name="improvement-feedback" value="irrelevant">
+                                <label for="improve-fb-irrelevant">Contains <strong>irrelevant information</strong> (not grounded in the situation or unrelated to the keyword)</label>
+                            </div>
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-verbose" name="improvement-feedback" value="verbose">
+                                <label for="improve-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
+                            </div>
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-false" name="improvement-feedback" value="false">
+                                <label for="improve-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
+                            </div>
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-over" name="improvement-feedback" value="over-interpretation">
+                                <label for="improve-fb-over"><strong>Over-interpretation</strong> (adds information not supported by the text)</label>
+                            </div>
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-lacks" name="improvement-feedback" value="lacks-info">
+                                <label for="improve-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                            </div>
+                            <div class="feedback-choice">
+                                <input type="checkbox" id="improve-fb-unclear" name="improvement-feedback" value="unclear">
+                                <label for="improve-fb-unclear"><strong>Hard to understand</strong> (unclear wording or poorly organized structure)</label>
+                            </div>
+                            <div class="feedback-choice feedback-none-choice">
+                                <input type="checkbox" id="improve-fb-none" name="improvement-feedback" value="none">
+                                <label for="improve-fb-none"><strong>Other</strong>:</label>
+                                <input type="text" id="improve-fb-none-text" class="feedback-none-text-input" disabled>
+                            </div>
                         </div>
                     </div>
                 </div>
