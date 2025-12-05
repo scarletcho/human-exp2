@@ -622,23 +622,39 @@ document.addEventListener('DOMContentLoaded', () => {
     function isPartComplete() {
         const trialAnswers = userAnswers[currentTrialIndex];
         if (currentPart === 1) {
-            return (trialAnswers.part1.answer && trialAnswers.part1.answer.trim() !== '') || trialAnswers.part1.noSpecific;
-        } else if (currentPart === 2) {
-            return trialAnswers.part2.candidateChoice && trialAnswers.part2.satisfaction;
-        } else if (currentPart === 3) {
-            return trialAnswers.part3.unchosenFeedback && trialAnswers.part3.unchosenFeedback.length > 0;
+            return (answerTextEl.value.trim() !== '') || noSpecificAnswerEl.checked;
+        } else if (currentPart === 2 || currentPart === 5 || currentPart === 8) {
+            const candidate = document.querySelector('input[name="candidate"]:checked');
+            const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
+
+            if (!candidate || !satisfaction) {
+                return false;
+            }
+
+            if (satisfaction.value < 5) {
+                const improvementCheckboxes = document.querySelectorAll('input[name="improvement-feedback"]:checked');
+                if (improvementCheckboxes.length === 0) {
+                    return false;
+                }
+
+                if (improveFbNoneCheckbox.checked && improveFbNoneText.value.trim() === '') {
+                    return false;
+                }
+            }
+            return true;
+        } else if (currentPart === 3 || currentPart === 6 || currentPart === 9) {
+            const feedbackCheckboxes = document.querySelectorAll('input[name="feedback"]:checked');
+            if (feedbackCheckboxes.length === 0) {
+                return false;
+            }
+            if (fbNoneCheckbox.checked && fbNoneText.value.trim() === '') {
+                return false;
+            }
+            return true;
         } else if (currentPart === 4) {
-            return (trialAnswers.part4.finalAnswer && trialAnswers.part4.finalAnswer.trim() !== '') || trialAnswers.part4.noSpecificFinal;
-        } else if (currentPart === 5) {
-            return trialAnswers.part5.candidateChoice && trialAnswers.part5.satisfaction;
-        } else if (currentPart === 6) {
-            return trialAnswers.part6.unchosenFeedback && trialAnswers.part6.unchosenFeedback.length > 0;
+            return (finalAnswerText.value.trim() !== '') || noSpecificFinalAnswerEl.checked;
         } else if (currentPart === 7) {
-            return (trialAnswers.part7.answer && trialAnswers.part7.answer.trim() !== '') || trialAnswers.part7.noSpecific;
-        } else if (currentPart === 8) {
-            return trialAnswers.part8.candidateChoice && trialAnswers.part8.satisfaction;
-        } else if (currentPart === 9) {
-            return trialAnswers.part9.unchosenFeedback && trialAnswers.part9.unchosenFeedback.length > 0;
+            return (part7AnswerTextEl.value.trim() !== '') || noSpecificPart7AnswerEl.checked;
         }
         return false;
     }
