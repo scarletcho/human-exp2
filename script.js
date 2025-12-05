@@ -154,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function showView(trialIndex, part) {
-            console.log("showView called for trialIndex:", trialIndex, "part:", part);
             part1Container.style.display = 'none';
             part2Container.style.display = 'none';
             part3Container.style.display = 'none';
@@ -164,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startContainer.style.display = 'none';
             instructionContainer.style.display = 'none';
             instructionContainer2.style.display = 'none';
+
             if (trialIndex >= trials.length) {
                 contextPanel.style.display = 'none';
                 mainPanel.style.width = '100%';
@@ -171,18 +171,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 completionContainer.style.display = 'block';
                 return;
             }
+
             contextPanel.style.display = 'flex';
             mainPanel.style.padding = '20px';
+
             const trial = trials[trialIndex];
-            console.log("Current trial object:", trial);
-            console.log("Trial situation:", trial.situation);
-            console.log("Trial question:", trial.question);
             contextKeywordEl.textContent = trial.keyword;
-            nsaKeyword.textContent = trial.keyword;
-            nsfaKeyword.textContent = trial.keyword;
-            nspaKeyword.textContent = trial.keyword;
             contextSituationEl.innerHTML = getHighlightedHTML(trial.situation, trial.keyword, false);
+
             let question = '';
+
             if (part === 1 || part === 4 || part === 7) {
                 mainWrapper.style.maxWidth = '1200px';
                 mainPanel.style.width = '50%';
@@ -194,20 +192,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 contextPanel.style.width = '40%';
                 contextUserAnswer.style.display = 'block';
             }
+
             if (part === 1) {
                 contextQuestionContainer.querySelector('hr').style.display = 'none';
                 part1QuestionContainer.appendChild(contextQuestionContainer);
                 question = trial.question;
+                nsaKeyword.textContent = trial.keyword;
                 part1Container.style.display = 'block';
             } else if (part === 4) {
                 contextQuestionContainer.querySelector('hr').style.display = 'none';
                 part4QuestionContainer.appendChild(contextQuestionContainer);
                 question = `Q: What are the prominent <strong>properties</strong> of the <span class="highlight">${trial.keyword}</span> in this situation? In your interpretation, what properties stand out as most meaningful or relevant in this context?`;
+                nsfaKeyword.textContent = trial.keyword;
                 part4Container.style.display = 'block';
             } else if (part === 7) {
                 contextQuestionContainer.querySelector('hr').style.display = 'none';
                 part7QuestionContainer.appendChild(contextQuestionContainer);
                 question = `Q: Which <b>emotions or wishes</b> does the <span class="highlight">${trial.keyword}</span> evoke in the situation?`;
+                nspaKeyword.textContent = trial.keyword;
                 part7Container.style.display = 'block';
             } else {
                 contextQuestionContainer.querySelector('hr').style.display = 'block';
@@ -233,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             contextQuestionEl.innerHTML = getHighlightedHTML(question, trial.keyword, true);
-            console.log('part1Container display after setting:', part1Container.style.display); // Log after setting
+
             loadState(trialIndex, part);
             updateButtonStates();
             updateTOC();
