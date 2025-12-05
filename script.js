@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Hide context panel immediately to prevent flash of unstyled content
+    const contextPanel = document.getElementById('context-panel');
+    if (contextPanel) {
+        contextPanel.style.display = 'none';
+    }
+
     async function main() {
         // --- Data Loading ---
         const response = await fetch('exp2_GroupA.jsonl');
@@ -14,8 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
         let experimentStarted = false;
 
-        // --- DOM Elements ---
-        const contextPanel = document.getElementById('context-panel');
+        // --- DOM Elements (re-get contextPanel inside main scope) ---
         const mainPanel = document.getElementById('main-panel');
         const mainWrapper = document.getElementById('main-wrapper');
         const contextKeywordEl = document.getElementById('context-keyword');
@@ -626,7 +631,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Initial Load ---
         generateTOC();
         startContainer.style.display = 'block';
-        contextPanel.style.display = 'none';
         mainPanel.style.width = '100%';
         part1Container.style.display = 'none';
         part2Container.style.display = 'none';
