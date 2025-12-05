@@ -1044,9 +1044,7 @@ body {
 }
 
 /* Instruction Page Readability Improvements */
-#instruction-container .welcome-header p,
-#instruction-container-2 .welcome-header p,
-#instruction-container-2 .placeholder-guide + p {
+#instruction-container .welcome-header p {
     font-size: 20px;
     line-height: 1.6;
 }
@@ -1055,9 +1053,6 @@ body {
     font-size: 17px;
 }
 
-#instruction-container-2 .placeholder-guide {
-    font-size: 17px;
-}
 
 #instruction-container .feedback-choice strong {
     color: #c0392b; /* A readable, distinct red */
