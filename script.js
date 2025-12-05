@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function showView(trialIndex, part) {
+            console.log("showView called for trialIndex:", trialIndex, "part:", part);
             part1Container.style.display = 'none';
             part2Container.style.display = 'none';
             part3Container.style.display = 'none';
@@ -173,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
             contextPanel.style.display = 'flex';
             mainPanel.style.padding = '20px';
             const trial = trials[trialIndex];
+            console.log("Current trial object:", trial);
+            console.log("Trial situation:", trial.situation);
+            console.log("Trial question:", trial.question);
             contextKeywordEl.textContent = trial.keyword;
             nsaKeyword.textContent = trial.keyword;
             nsfaKeyword.textContent = trial.keyword;
@@ -229,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             contextQuestionEl.innerHTML = getHighlightedHTML(question, trial.keyword, true);
+            console.log('part1Container display after setting:', part1Container.style.display); // Log after setting
             loadState(trialIndex, part);
             updateButtonStates();
             updateTOC();
