@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTrialIndex = 0;
     let currentPart = 1;
     let userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+    let experimentStarted = false;
 
     // --- DOM Elements ---
     const contextPanel = document.getElementById('context-panel');
@@ -640,13 +641,20 @@ document.addEventListener('DOMContentLoaded', () => {
     nextInstructionButton.addEventListener('click', () => {
         instructionContainer.style.display = 'none';
         instructionContainer2.style.display = 'block';
-        beginExperimentButton.textContent = "Resume Experiment";
+        if (!experimentStarted) {
+            beginExperimentButton.textContent = "Begin Experiment";
+        } else {
+            beginExperimentButton.textContent = "Resume Experiment";
+        }
     });
 
     instructionButton.addEventListener('click', showInstructions);
 
     beginExperimentButton.addEventListener('click', () => {
         instructionContainer2.style.display = 'none';
+        if (!experimentStarted) {
+            experimentStarted = true;
+        }
         showView(currentTrialIndex, currentPart);
     });
 
