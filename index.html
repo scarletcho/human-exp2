@@ -109,6 +109,42 @@
                         </div>
                     </div>
                 </div>
+                <div id="improvement-feedback" style="display: none;">
+                    <hr>
+                    <h2 class="label">Q: What could be improved?</h2>
+                    <span class="subtitle">Choose all that apply:</span>
+                    <div class="feedback-options">
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-irrelevant" name="improvement-feedback" value="irrelevant">
+                            <label for="improve-fb-irrelevant">Contains <strong>irrelevant information</strong> (not grounded in the situation or unrelated to the keyword)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-verbose" name="improvement-feedback" value="verbose">
+                            <label for="improve-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-false" name="improvement-feedback" value="false">
+                            <label for="improve-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-over" name="improvement-feedback" value="over-interpretation">
+                            <label for="improve-fb-over"><strong>Over-interpretation</strong> (adds information not supported by the text)</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-lacks" name="improvement-feedback" value="lacks-info">
+                            <label for="improve-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                        </div>
+                        <div class="feedback-choice">
+                            <input type="checkbox" id="improve-fb-unclear" name="improvement-feedback" value="unclear">
+                            <label for="improve-fb-unclear"><strong>Hard to understand</strong> (unclear wording or poorly organized structure)</label>
+                        </div>
+                        <div class="feedback-choice feedback-none-choice">
+                            <input type="checkbox" id="improve-fb-none" name="improvement-feedback" value="none">
+                            <label for="improve-fb-none"><strong>None of them</strong>:</label>
+                            <input type="text" id="improve-fb-none-text" disabled>
+                        </div>
+                    </div>
+                </div>
                 <div class="navigation-buttons">
                     <button class="prev-button">Previous</button>
                     <button class="next-button">Next</button>

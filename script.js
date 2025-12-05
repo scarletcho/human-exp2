@@ -130,6 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const candidateRadios = document.querySelectorAll('input[name="candidate"]');
     const satisfactionRadios = document.querySelectorAll('input[name="satisfaction"]');
 
+    // Improvement feedback
+    const improvementFeedback = document.getElementById('improvement-feedback');
+    const improvementCheckboxes = document.querySelectorAll('input[name="improvement-feedback"]');
+    const improveFbNoneCheckbox = document.getElementById('improve-fb-none');
+    const improveFbNoneText = document.getElementById('improve-fb-none-text');
+
     // Part 3
     const finalReviewSection = document.getElementById('final-review-section');
     const unchosenFeedbackTitle = document.getElementById('unchosen-feedback-title');
@@ -338,6 +344,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- State Management ---
+    function getImprovementFeedback() {
+        const feedback = [];
+        document.querySelectorAll('input[name="improvement-feedback"]:checked').forEach(checkbox => {
+            if (checkbox.value === 'none') {
+                if (improveFbNoneText.value) feedback.push(`None: ${improveFbNoneText.value}`);
+            } else {
+                feedback.push(checkbox.value);
+            }
+        });
+        return {
+            feedback: feedback,
+            noneText: improveFbNoneText.value
+        };
+    }
+
     function saveCurrentState() {
         const trialAnswers = userAnswers[currentTrialIndex];
         if (currentPart === 1) {
@@ -348,6 +369,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
             trialAnswers.part2.candidateChoice = candidate ? candidate.value : null;
             trialAnswers.part2.satisfaction = satisfaction ? satisfaction.value : null;
+            const improvementData = getImprovementFeedback();
+            trialAnswers.part2.improvementFeedback = improvementData.feedback;
+            trialAnswers.part2.improvementFbNoneText = improvementData.noneText;
         } else if (currentPart === 3) {
             const feedback = [];
             document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
@@ -367,6 +391,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
             trialAnswers.part5.candidateChoice = candidate ? candidate.value : null;
             trialAnswers.part5.satisfaction = satisfaction ? satisfaction.value : null;
+            const improvementData = getImprovementFeedback();
+            trialAnswers.part5.improvementFeedback = improvementData.feedback;
+            trialAnswers.part5.improvementFbNoneText = improvementData.noneText;
         } else if (currentPart === 6) {
             const feedback = [];
             document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
@@ -386,6 +413,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
             trialAnswers.part8.candidateChoice = candidate ? candidate.value : null;
             trialAnswers.part8.satisfaction = satisfaction ? satisfaction.value : null;
+            const improvementData = getImprovementFeedback();
+            trialAnswers.part8.improvementFeedback = improvementData.feedback;
+            trialAnswers.part8.improvementFbNoneText = improvementData.noneText;
         } else if (currentPart === 9) {
             const feedback = [];
             document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
@@ -397,6 +427,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             trialAnswers.part9.unchosenFeedback = feedback;
             trialAnswers.part9.fbNoneText = fbNoneText.value;
+        }
+    }
+
+    function loadImprovementFeedback(partAnswers) {
+        improvementCheckboxes.forEach(checkbox => checkbox.checked = false);
+        if (partAnswers.improvementFeedback) {
+            partAnswers.improvementFeedback.forEach(fb => {
+                if (fb.startsWith('None:')) {
+                    const noneCheckbox = document.querySelector('input[name="improvement-feedback"][value="none"]');
+                    if(noneCheckbox) noneCheckbox.checked = true;
+                    improveFbNoneText.value = fb.replace('None: ', '');
+                    improveFbNoneText.disabled = false;
+                } else {
+                    const checkbox = document.querySelector(`input[name="improvement-feedback"][value="${fb}"]`);
+                    if(checkbox) checkbox.checked = true;
+                }
+            });
+        }
+        improveFbNoneText.disabled = !document.querySelector('input[name="improvement-feedback"][value="none"]:checked');
+
+        if (partAnswers.satisfaction && partAnswers.satisfaction !== '5') {
+            improvementFeedback.style.display = 'block';
+        } else {
+            improvementFeedback.style.display = 'none';
         }
     }
 
@@ -412,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates.B);
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.satisfaction);
+            loadImprovementFeedback(trialAnswers.part2);
         } else if (part === 3) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
             const { candidateChoice } = trialAnswers.part2;
@@ -465,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates2.B);
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.satisfaction);
+            loadImprovementFeedback(trialAnswers.part5);
         } else if (part === 6) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
             const { candidateChoice } = trialAnswers.part5;
@@ -517,6 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates3.B);
             candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.candidateChoice);
             satisfactionRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.satisfaction);
+            loadImprovementFeedback(trialAnswers.part8);
         } else if (part === 9) {
             refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
             const { candidateChoice } = trialAnswers.part8;
@@ -666,7 +723,24 @@ document.addEventListener('DOMContentLoaded', () => {
     noSpecificAnswerEl.addEventListener('change', () => { answerTextEl.disabled = noSpecificAnswerEl.checked; if (noSpecificAnswerEl.checked) answerTextEl.value = ''; saveCurrentState(); updateButtonStates(); });
 
     candidateRadios.forEach(radio => radio.addEventListener('change', () => { saveCurrentState(); updateButtonStates(); }));
-    satisfactionRadios.forEach(radio => radio.addEventListener('change', () => { saveCurrentState(); updateButtonStates(); }));
+    satisfactionRadios.forEach(radio => radio.addEventListener('change', () => {
+        const selectedSatisfaction = document.querySelector('input[name="satisfaction"]:checked');
+        if (selectedSatisfaction && selectedSatisfaction.value !== '5') {
+            improvementFeedback.style.display = 'block';
+        } else {
+            improvementFeedback.style.display = 'none';
+            improvementCheckboxes.forEach(cb => cb.checked = false);
+            improveFbNoneText.value = '';
+            improveFbNoneText.disabled = true;
+        }
+        saveCurrentState();
+        updateButtonStates();
+    }));
+
+    improvementCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => { saveCurrentState(); updateButtonStates(); }));
+    improveFbNoneCheckbox.addEventListener('change', () => { improveFbNoneText.disabled = !improveFbNoneCheckbox.checked; if (!improveFbNoneCheckbox.checked) improveFbNoneText.value = ''; saveCurrentState(); updateButtonStates(); });
+    improveFbNoneText.addEventListener('input', () => { saveCurrentState(); updateButtonStates(); });
+
 
     feedbackCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => { saveCurrentState(); updateButtonStates(); }));
     fbNoneCheckbox.addEventListener('change', () => { fbNoneText.disabled = !fbNoneCheckbox.checked; if (!fbNoneCheckbox.checked) fbNoneText.value = ''; saveCurrentState(); updateButtonStates(); });
