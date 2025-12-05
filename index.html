@@ -33,13 +33,16 @@
         <div id="main-panel">
             <!-- Part 1: Initial Question -->
             <div id="part1-container" style="display: none;">
-                <div id="part1-question-container"></div>
+                <div id="part1-question-container">
+                    <h2 class="label">Question:</h2>
+                    <p id="part1-question"></p>
+                </div>
                 <div class="answer-section">
                     <h2 class="label">Answer:</h2>
                     <textarea id="answer-text" class="main-answer-textarea" rows="6" placeholder="Enter your answer here..."></textarea>
                     <div class="checkbox-container">
                         <input type="checkbox" id="no-specific-answer">
-                        <label for="no-specific-answer">Nothing specific. (Only select if the <span class="highlight-keyword">&lt;keyword&gt;</span> does NOT take any actions or experience anything in this situation)</label>
+                        <label for="no-specific-answer">Nothing specific. (Only select if you find that the <span id="nsa-keyword" class="highlight-keyword">&lt;keyword&gt;</span> does NOT do anything or experience anything in this situation.)</label>
                     </div>
                 </div>
                 <div class="navigation-buttons">
@@ -199,13 +202,16 @@
 
             <!-- Part 4: Final Question (Initially Hidden) -->
             <div id="part4-container" style="display: none;">
-                <div id="part4-question-container"></div>
+                <div id="part4-question-container">
+                    <h2 class="label">Question:</h2>
+                    <p id="part4-question"></p>
+                </div>
                 <div class="answer-section">
                     <h2 class="label">Answer:</h2>
                     <textarea id="final-answer-text" class="main-answer-textarea" rows="6" placeholder="Enter your answer here..."></textarea>
                     <div class="checkbox-container">
                         <input type="checkbox" id="no-specific-final-answer">
-                        <label for="no-specific-final-answer">Nothing specific. (Only select if the <span class="highlight-keyword">&lt;keyword&gt;</span> is NOT described with any meaningful or relevant properties)</label>
+                        <label for="no-specific-final-answer">Nothing specific. (Only select if you do NOT find any meaningful or notable properties of the <span id="nsfa-keyword" class="highlight-keyword">&lt;keyword&gt;</span> in this situation.)</label>
                     </div>
                 </div>
                 <div class="navigation-buttons">
@@ -216,13 +222,16 @@
 
             <!-- Part 7: Emotion Question (Initially Hidden) -->
             <div id="part7-container" style="display: none;">
-                <div id="part7-question-container"></div>
+                <div id="part7-question-container">
+                    <h2 class="label">Question:</h2>
+                    <p id="part7-question"></p>
+                </div>
                 <div class="answer-section">
                     <h2 class="label">Answer:</h2>
                     <textarea id="part7-answer-text" class="main-answer-textarea" rows="6" placeholder="Enter your answer here..."></textarea>
                     <div class="checkbox-container">
                         <input type="checkbox" id="no-specific-part7-answer">
-                        <label for="no-specific-part7-answer">Nothing specific. (Only select if the <span class="highlight-keyword">&lt;keyword&gt;</span> does NOT evoke any specific emotions or wishes in this situation)</label>
+                        <label for="no-specific-part7-answer">Nothing specific. (Only select if the <span id="nspa-keyword" class="highlight-keyword">&lt;keyword&gt;</span> does NOT evoke any specific emotions or wishes for you in this situation.)</label>
                     </div>
                 </div>
                 <div class="navigation-buttons">
