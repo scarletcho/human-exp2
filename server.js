@@ -26,7 +26,7 @@ function generatePasscode(workerId) {
     if (!isNaN(parseInt(workerId))) {
         id_part = `W${String(parseInt(workerId)).padStart(2, '0')}`;
     }
-    return `EXP1-${id_part}-${suffix}`;
+    return `EXP2-${id_part}-${suffix}`;
 }
 
 async function getOrCreateSpreadsheetId(auth, sheetName) {
