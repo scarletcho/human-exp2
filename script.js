@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (part === 1) {
                 contextQuestionContainer.querySelector('hr').style.display = 'none';
                 part1QuestionContainer.appendChild(contextQuestionContainer);
-                question = trial.question;
+                question = `Q: What happened with the <span class="highlight">${trial.keyword}</span> in the situation? What did they do or what occurred to them?`;
                 nsaKeyword.textContent = trial.keyword;
                 part1Container.style.display = 'block';
             } else if (part === 4) {
