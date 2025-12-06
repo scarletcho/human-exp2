@@ -60,8 +60,8 @@ body {
     flex-wrap: wrap;
     gap: 10px;
 }
-#instruction-button, #save-progress-button {
-    background-color: #6c757d;
+#instruction-button {
+    background-color: #fd7e14; /* Orange */
     color: #ffffff;
     padding: 8px 12px;
     border-radius: 4px;
@@ -70,8 +70,27 @@ body {
     font-weight: 600;
 }
 
-#instruction-button:hover, #save-progress-button:hover {
-    background-color: #5a6268;
+#instruction-button:hover {
+    background-color: #dc6200; /* Darker Orange */
+}
+
+#save-progress-button {
+    background-color: #fd7e14; /* Orange */
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#save-progress-button:hover {
+    background-color: #dc6200; /* Darker Orange */
+}
+
+#save-progress-button:disabled {
+    background-color: #6c757d; /* Grey when disabled */
+    cursor: not-allowed;
 }
 
 .start-buttons-container {
@@ -96,7 +115,7 @@ body {
 }
 
 #load-saved-button {
-    background-color: #6c757d;
+    background-color: #0056b3; /* Darker Blue */
 }
 
 #start-new-button:hover, #load-saved-button:hover {
@@ -104,7 +123,7 @@ body {
 }
 
 #load-saved-button:hover {
-    background-color: #5a6268;
+    background-color: #004085; /* Even Darker Blue */
 }
 
 

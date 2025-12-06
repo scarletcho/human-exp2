@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const nsaKeyword = document.getElementById('nsa-keyword');
         const nsfaKeyword = document.getElementById('nsfa-keyword');
         const nspaKeyword = document.getElementById('nspa-keyword');
+        const submissionConfirmation = document.getElementById('submission-confirmation');
+        const submitFinishButton = document.getElementById('submit-finish-button');
         const prevButtons = document.querySelectorAll('.prev-button');
         const nextButtons = document.querySelectorAll('.next-button');
 
@@ -128,11 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 const text = await response.text();
                 trials = text.trim().split('\n').map(line => JSON.parse(line));
+                trials = trials.slice(0, 2); // Limit to first two trials
                 userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
 
                 generateTOC();
                 startContainer.style.display = 'none';
                 instructionContainer.style.display = 'block';
+                saveProgressButton.disabled = true;
             }
         }
 
@@ -226,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             part7Container.style.display = 'none';
             instructionContainer.style.display = 'block';
             beginExperimentButton.textContent = "Resume Experiment";
+            saveProgressButton.disabled = true;
         }
 
         function showView(trialIndex, part) {
@@ -243,8 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainPanel.style.width = '100%';
                 mainPanel.style.padding = '0';
                 completionContainer.style.display = 'block';
+                saveProgressButton.disabled = true;
                 return;
             }
+            saveProgressButton.disabled = false;
             contextPanel.style.display = 'flex';
             mainPanel.style.padding = '20px';
             const trial = trials[trialIndex];
@@ -312,7 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function getImprovementFeedback() {
             const feedback = [];
             document.querySelectorAll('input[name="improvement-feedback"]:checked').forEach(checkbox => {
-                if (checkbox.value === 'none') {
+                if (checkbox.id === 'improve-fb-false') {
+                    feedback.push('false-info');
+                } else if (checkbox.value === 'none') {
                     if (improveFbNoneText.value) feedback.push(`Other: ${improveFbNoneText.value}`);
                 } else {
                     feedback.push(checkbox.value);
@@ -320,7 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return { feedback: feedback, noneText: improveFbNoneText.value };
         }
-
         function saveCurrentState() {
             if (currentTrialIndex >= trials.length) return;
             const trialAnswers = userAnswers[currentTrialIndex];
@@ -338,7 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (currentPart === 3) {
                 const feedback = [];
                 document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
-                    if (checkbox.value === 'none') {
+                    if (checkbox.id === 'fb-false') {
+                        feedback.push('false-info');
+                    } else if (checkbox.value === 'none') {
                         if (fbNoneText.value) feedback.push(`Other: ${fbNoneText.value}`);
                     } else {
                         feedback.push(checkbox.value);
@@ -360,7 +370,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (currentPart === 6) {
                 const feedback = [];
                 document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
-                    if (checkbox.value === 'none') {
+                    if (checkbox.id === 'fb-false') {
+                        feedback.push('false-info');
+                    } else if (checkbox.value === 'none') {
                         if (fbNoneText.value) feedback.push(`Other: ${fbNoneText.value}`);
                     } else {
                         feedback.push(checkbox.value);
@@ -382,7 +394,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (currentPart === 9) {
                 const feedback = [];
                 document.querySelectorAll('input[name="feedback"]:checked').forEach(checkbox => {
-                    if (checkbox.value === 'none') {
+                    if (checkbox.id === 'fb-false') {
+                        feedback.push('false-info');
+                    } else if (checkbox.value === 'none') {
                         if (fbNoneText.value) feedback.push(`Other: ${fbNoneText.value}`);
                     } else {
                         feedback.push(checkbox.value);
@@ -614,31 +628,144 @@ document.addEventListener('DOMContentLoaded', () => {
             nextButtons.forEach(button => button.disabled = !isPartComplete());
         }
 
-        function nextPage() {
-            saveCurrentState();
-            if (!isPartComplete()) {
-                alert("Please complete the current question before proceeding.");
+
+        async function saveFullExperimentData() {
+            // Check for completion
+            let allComplete = true;
+            const incompleteKeywords = [];
+            trials.forEach((trial, index) => {
+                const trialAnswers = userAnswers[index];
+                const isCompleted = Object.keys(trialAnswers).every(partKey => {
+                    const part = trialAnswers[partKey];
+                    return part && Object.keys(part).length > 0;
+                });
+
+                if (!isCompleted) {
+                    allComplete = false;
+                    incompleteKeywords.push(trial.keyword);
+                }
+            });
+
+            if (!allComplete) {
+                alert(`You have incomplete work. Please review the following keywords: ${incompleteKeywords.join(', ')}`);
                 return;
             }
-            if (currentPart < 9) {
-                currentPart++;
-            } else {
-                console.log(`Trial ${currentTrialIndex + 1} Data:`, userAnswers[currentTrialIndex]);
-                currentTrialIndex++;
-                currentPart = 1;
+            
+            if (confirm('Are you sure you want to submit and finish the experiment?')) {
+                const allTrialsData = trials.map((trial, index) => ({
+                    trialIndex: index,
+                    keyword: trial.keyword,
+                    situation: trial.situation,
+                    question: trial.question,
+                    ...userAnswers[index]
+                }));
+
+                try {
+                    const response = await fetch('/api/save-results', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ responses: allTrialsData, userId }),
+                    });
+                        
+                    if (response.ok) {
+                        const result = await response.json();
+                        submissionConfirmation.innerHTML = `
+                            <h1>Thank you!</h1>
+                            <p>✅ Your responses have been recorded successfully.</p>
+                            <p>Your completion passcode is:</p>
+                            <p style="font-weight: bold; font-size: 1.2em; color: #3498db;">${result.passcode}</p>
+                        `;
+                        submitFinishButton.disabled = true;
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Failed to save responses:', errorData);
+                        submissionConfirmation.innerHTML = `
+                            <h1>Oops!</h1>
+                            <p>There was an error saving your responses. Please contact the administrator.</p>
+                            <p style="color:red; font-size:0.8em;">Error: ${errorData.message}</p>
+                            <p>Your data is still saved in this browser. You can try submitting again later or contact support.</p>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Failed to save responses:', error);
+                    submissionConfirmation.innerHTML = `
+                        <h1>Oops!</h1>
+                        <p>There was an error saving your responses. Please contact the administrator.</p>
+                        <p style="color:red; font-size:0.8em;">Error: ${error.message}</p>
+                        <p>Your data is still saved in this browser. You can try submitting again later or contact support.</p>
+                    `;
+                }
             }
-            showView(currentTrialIndex, currentPart);
         }
 
         function previousPage() {
             saveCurrentState();
-            if (currentPart > 1) {
-                currentPart--;
-            } else {
-                if (currentTrialIndex > 0) {
-                    currentTrialIndex--;
+
+            if (currentPart === 1 && currentTrialIndex > 0) {
+                // Moving to previous trial
+                currentTrialIndex--;
+                const prevTrial = trials[currentTrialIndex];
+                if (prevTrial.candidates3.A === 'None' && prevTrial.candidates3.B === 'None') {
+                    currentPart = 8; // Skip part 9
+                } else {
                     currentPart = 9;
                 }
+            } else if (currentPart === 4) {
+                const trial = trials[currentTrialIndex];
+                if (trial.candidates.A === 'None' && trial.candidates.B === 'None') {
+                    currentPart = 2; // Skip part 3
+                } else {
+                    currentPart = 3;
+                }
+            } else if (currentPart === 7) {
+                const trial = trials[currentTrialIndex];
+                if (trial.candidates2.A === 'None' && trial.candidates2.B === 'None') {
+                    currentPart = 5; // Skip part 6
+                } else {
+                    currentPart = 6;
+                }
+            } else if (currentPart > 1) {
+                currentPart--;
+            }
+            // If currentPart is 1 and trialIndex is 0, nothing happens, which is correct.
+
+            showView(currentTrialIndex, currentPart);
+        }
+
+        function nextPage() {
+            saveCurrentState();
+
+            const trial = trials[currentTrialIndex];
+            // Check if we are moving from a part that could be a "None scenario"
+            if (currentPart === 2) {
+                if (trial.candidates.A === 'None' && trial.candidates.B === 'None') {
+                    userAnswers[currentTrialIndex].part3 = { skipped: true };
+                    currentPart = 4; // Skip part 3
+                } else {
+                    currentPart++;
+                }
+            } else if (currentPart === 5) {
+                if (trial.candidates2.A === 'None' && trial.candidates2.B === 'None') {
+                    userAnswers[currentTrialIndex].part6 = { skipped: true };
+                    currentPart = 7; // Skip part 6
+                } else {
+                    currentPart++;
+                }
+            } else if (currentPart === 8) {
+                if (trial.candidates3.A === 'None' && trial.candidates3.B === 'None') {
+                    userAnswers[currentTrialIndex].part9 = { skipped: true };
+                    currentTrialIndex++; // Skip part 9 and move to next trial
+                    currentPart = 1;
+                } else {
+                    currentPart++;
+                }
+            } else if (currentPart < 9) {
+                currentPart++;
+            } else {
+                currentTrialIndex++;
+                currentPart = 1;
             }
             showView(currentTrialIndex, currentPart);
         }
@@ -688,11 +815,19 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 beginExperimentButton.textContent = "Resume Experiment";
             }
+            saveProgressButton.disabled = true;
         });
 
         instructionButton.addEventListener('click', showInstructions);
 
-        saveProgressButton.addEventListener('click', saveStateToLocalStorage);
+        saveProgressButton.addEventListener('click', () => {
+            if (!userId) {
+                alert('Please enter a Participant ID to save progress.');
+                return;
+            }
+            saveStateToLocalStorage();
+            alert('Progress saved successfully!');
+        });
 
         beginExperimentButton.addEventListener('click', () => {
             instructionContainer2.style.display = 'none';
@@ -752,6 +887,8 @@ document.addEventListener('DOMContentLoaded', () => {
         part7AnswerTextEl.addEventListener('input', () => { saveCurrentState(); updateButtonStates(); });
         noSpecificPart7AnswerEl.addEventListener('change', () => { part7AnswerTextEl.disabled = noSpecificPart7AnswerEl.checked; if (noSpecificPart7AnswerEl.checked) part7AnswerTextEl.value = ''; saveCurrentState(); updateButtonStates(); });
 
+        submitFinishButton.addEventListener('click', saveFullExperimentData);
+
         // --- Initial Load ---
         startContainer.style.display = 'block';
         mainPanel.style.width = '100%';
@@ -763,6 +900,7 @@ document.addEventListener('DOMContentLoaded', () => {
         completionContainer.style.display = 'none';
         instructionContainer.style.display = 'none';
         instructionContainer2.style.display = 'none';
+        saveProgressButton.disabled = true;
     }
 
     main().catch(error => {

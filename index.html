@@ -131,7 +131,7 @@
                                 <label for="improve-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
                             </div>
                             <div class="feedback-choice">
-                                <input type="checkbox" id="improve-fb-false" name="improvement-feedback" value="false">
+                                <input type="checkbox" id="improve-fb-false" name="improvement-feedback" value="false-info">
                                 <label for="improve-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
                             </div>
                             <div class="feedback-choice">
@@ -140,7 +140,7 @@
                             </div>
                             <div class="feedback-choice">
                                 <input type="checkbox" id="improve-fb-lacks" name="improvement-feedback" value="lacks-info">
-                                <label for="improve-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                                <label for="improve-fb-lacks"><b>Lacks information</b> that should be included</label>
                             </div>
                             <div class="feedback-choice">
                                 <input type="checkbox" id="improve-fb-unclear" name="improvement-feedback" value="unclear">
@@ -176,7 +176,7 @@
                             <label for="fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
                         </div>
                         <div class="feedback-choice">
-                            <input type="checkbox" id="fb-false" name="feedback" value="false">
+                            <input type="checkbox" id="fb-false" name="feedback" value="false-info">
                             <label for="fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
                         </div>
                         <div class="feedback-choice">
@@ -185,7 +185,7 @@
                         </div>
                         <div class="feedback-choice">
                             <input type="checkbox" id="fb-lacks" name="feedback" value="lacks-info">
-                            <label for="fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                            <label for="fb-lacks"><b>Lacks information</b> that should be included</label>
                         </div>
                         <div class="feedback-choice">
                             <input type="checkbox" id="fb-unclear" name="feedback" value="unclear">
@@ -305,7 +305,7 @@
                             <label for="instr-fb-verbose">Contains <strong>redundant or unnecessarily verbose</strong> information</label>
                         </div>
                         <div class="feedback-choice">
-                            <input type="checkbox" id="instr-fb-false" name="instr-feedback" value="false" disabled>
+                            <input type="checkbox" id="instr-fb-false" name="instr-feedback" value="false-info" disabled>
                             <label for="instr-fb-false">Contains <strong>false information</strong> about the situation (distorts information from the text)</label>
                         </div>
                         <div class="feedback-choice">
@@ -314,7 +314,7 @@
                         </div>
                         <div class="feedback-choice">
                             <input type="checkbox" id="instr-fb-lacks" name="instr-feedback" value="lacks-info" disabled>
-                            <label for="instr-fb-lacks"><strong>Lacks key information</strong> that should be included</label>
+                            <label for="instr-fb-lacks"><b>Lacks information</b> that should be included</label>
                         </div>
                         <div class="feedback-choice">
                             <input type="checkbox" id="instr-fb-unclear" name="instr-feedback" value="unclear" disabled>
@@ -369,6 +369,8 @@
                     <div class="welcome-header">
                         <h1>Experiment Complete</h1>
                         <p>Thank you for your participation.</p>
+                        <div id="submission-confirmation"></div>
+                        <button id="submit-finish-button">Submit and Finish</button>
                     </div>
                 </div>
             </div>
