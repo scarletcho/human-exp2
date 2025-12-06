@@ -390,34 +390,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 const partKey = `part${part}`;
                 const prevPartKey = part === 2 ? 'part1' : (part === 5 ? 'part4' : 'part7');
                 const candidatesKey = part === 2 ? 'candidates' : (part === 5 ? 'candidates2' : 'candidates3');
+
                 refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
+                
                 const candidateA = trials[trialIndex][candidatesKey].A;
                 const candidateB = trials[trialIndex][candidatesKey].B;
                 const candidateSelectionEl = part2Container.querySelector('.candidate-selection');
                 const satisfactionQuestionEl = satisfactionAndFeedbackSection.querySelector('.satisfaction-rating h2.label');
+
+                // Always display candidate selection, regardless of whether they are both 'None'
+                candidateSelectionEl.style.display = 'block'; // Ensure it's visible
+
+                document.getElementById('candidate-a').innerHTML = createSpacedHTML(candidateA);
+                document.getElementById('candidate-b').innerHTML = createSpacedHTML(candidateB);
+
                 if (candidateA === 'None' && candidateB === 'None') {
-                    // candidateSelectionEl.style.display = 'none'; // Removed as per user request
                     satisfactionQuestionEl.textContent = "Q: Both models answered 'None'. How satisfied are you with this answer?";
                     satisfactionAndFeedbackSection.style.display = 'block'; // Show satisfaction directly
+
                     // Disable candidate radios as selection is not needed
                     candidateRadios.forEach(radio => {
                         radio.checked = false;
                         radio.disabled = true;
                     });
+                    
                     satisfactionRadios.forEach(radio => {
                         radio.disabled = false;
                         radio.checked = radio.value === trialAnswers[partKey].satisfaction;
                     });
                     loadImprovementFeedback(trialAnswers[partKey]);
+
                 } else {
-                    candidateSelectionEl.style.display = 'block';
+                    // Existing logic for different/non-None answers
                     satisfactionQuestionEl.textContent = "Q: How satisfied are you with your chosen answer?";
-                    document.getElementById('candidate-a').innerHTML = createSpacedHTML(candidateA);
-                    document.getElementById('candidate-b').innerHTML = createSpacedHTML(candidateB);
+
                     candidateRadios.forEach(radio => {
                         radio.disabled = false; // Ensure they are enabled for normal comparison
                         radio.checked = radio.value === trialAnswers[partKey].candidateChoice;
                     });
+                    
                     if (trialAnswers[partKey].candidateChoice) {
                         satisfactionAndFeedbackSection.style.display = 'block';
                         satisfactionRadios.forEach(radio => {
@@ -515,7 +526,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const trial = trials[currentTrialIndex];
                 const candidatesKey = currentPart === 2 ? 'candidates' : (currentPart === 5 ? 'candidates2' : 'candidates3');
                 const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
-                if (trial[candidatesKey].A === 'None' && trial[candidatesKey].B === 'None') {
+                
+                const candidateA = trial[candidatesKey].A;
+                const candidateB = trial[candidatesKey].B;
+
+                if (candidateA === 'None' && candidateB === 'None') {
                     if (!satisfaction) return false;
                 } else {
                     const candidate = document.querySelector('input[name="candidate"]:checked');
