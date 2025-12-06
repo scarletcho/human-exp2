@@ -80,11 +80,11 @@ body {
     margin-top: 20px;
 }
 
-.load-progress-button {
+#start-new-button, #load-saved-button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #6c757d;
+    background-color: #1877f2;
     color: #ffffff;
     border: none;
     border-radius: 6px;
@@ -92,9 +92,18 @@ body {
     font-weight: 600;
     cursor: pointer;
     text-align: center;
+    transition: background-color 0.2s;
 }
 
-.load-progress-button:hover {
+#load-saved-button {
+    background-color: #6c757d;
+}
+
+#start-new-button:hover, #load-saved-button:hover {
+    background-color: #166fe5;
+}
+
+#load-saved-button:hover {
     background-color: #5a6268;
 }
 

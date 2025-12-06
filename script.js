@@ -39,11 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const startContainer = document.getElementById('start-container');
         const instructionContainer = document.getElementById('instruction-container');
         const instructionContainer2 = document.getElementById('instruction-container-2');
-        const startExperimentButton = document.getElementById('start-experiment-button');
-        startExperimentButton.disabled = true;
+        const startNewButton = document.getElementById('start-new-button');
+        const loadSavedButton = document.getElementById('load-saved-button');
         const nextInstructionButton = document.getElementById('next-instruction-button');
         const beginExperimentButton = document.getElementById('begin-experiment-button');
         const instructionButton = document.getElementById('instruction-button');
+        const saveProgressButton = document.getElementById('save-progress-button');
         const answerTextEl = document.getElementById('answer-text');
         const noSpecificAnswerEl = document.getElementById('no-specific-answer');
         const refUserAnswerEl = document.getElementById('ref-user-answer');
@@ -88,27 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return null;
         }
-        
+
         function clearState() {
             if (!userId) return;
             localStorage.removeItem(`experiment-progress-${userId}`);
         }
 
         participantIdInput.addEventListener('input', () => {
-            const id = participantIdInput.value.trim();
-            userId = id;
+            userId = participantIdInput.value.trim();
             const groupA_IDs = ['3', '4', '5'];
             const groupB_IDs = ['7', '10', '11'];
 
-            if (groupA_IDs.includes(id)) {
+            if (groupA_IDs.includes(userId)) {
                 dataFile = 'exp2_GroupA.jsonl';
-                startExperimentButton.disabled = false;
-            } else if (groupB_IDs.includes(id)) {
+                startNewButton.disabled = false;
+            } else if (groupB_IDs.includes(userId)) {
                 dataFile = 'exp2_GroupB.jsonl';
-                startExperimentButton.disabled = false;
+                startNewButton.disabled = false;
             } else {
                 dataFile = '';
-                startExperimentButton.disabled = true;
+                startNewButton.disabled = true;
             }
         });
 
@@ -566,10 +566,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const trial = trials[currentTrialIndex];
                 const candidatesKey = currentPart === 2 ? 'candidates' : (currentPart === 5 ? 'candidates2' : 'candidates3');
                 const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
-                
                 const candidateA = trial[candidatesKey].A;
                 const candidateB = trial[candidatesKey].B;
-
                 if (candidateA === 'None' && candidateB === 'None') {
                     if (!satisfaction) return false;
                 } else {
@@ -609,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
         };
-
+    
         function updateButtonStates() {
             const isFirstPage = currentTrialIndex === 0 && currentPart === 1;
             prevButtons.forEach(button => button.disabled = isFirstPage);
@@ -652,23 +650,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return text.replace(regex, '<span class="highlight">$1</span>');
         };
 
-        startExperimentButton.addEventListener('click', () => {
+        startNewButton.addEventListener('click', () => {
             userId = participantIdInput.value.trim();
             if (!userId) {
                 alert('Please enter a Participant ID to begin.');
                 return;
             }
-
             const savedState = loadStateFromLocalStorage(userId);
             if (savedState) {
-                if (confirm('A saved session for this ID was found. Do you want to resume?')) {
-                    runExperiment(savedState);
-                } else {
-                    clearState();
-                    runExperiment();
+                if (!confirm('This will overwrite your previously saved progress for this ID. Are you sure you want to start a new experiment?')) {
+                    return;
                 }
+            }
+            clearState();
+            runExperiment();
+        });
+
+        loadSavedButton.addEventListener('click', () => {
+            userId = participantIdInput.value.trim();
+            if (!userId) {
+                alert('Please enter a Participant ID to load progress.');
+                return;
+            }
+            const savedState = loadStateFromLocalStorage(userId);
+            if (savedState) {
+                runExperiment(savedState);
             } else {
-                runExperiment();
+                alert('No saved progress found for this ID.');
             }
         });
 
@@ -683,6 +691,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         instructionButton.addEventListener('click', showInstructions);
+
+        saveProgressButton.addEventListener('click', saveStateToLocalStorage);
 
         beginExperimentButton.addEventListener('click', () => {
             instructionContainer2.style.display = 'none';
