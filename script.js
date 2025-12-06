@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const part4QuestionContainer = document.getElementById('part4-question-container');
         const part7QuestionContainer = document.getElementById('part7-question-container');
         const tocList = document.getElementById('toc-list');
+        const tocCounter = document.getElementById('toc-counter');
         const contextUserAnswer = document.getElementById('context-user-answer');
         const part1Container = document.getElementById('part1-container');
         const part2Container = document.getElementById('part2-container');
@@ -136,12 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateTOC() {
             const keywordContainers = tocList.querySelectorAll('.toc-keyword-container');
+            let completedCount = 0;
             keywordContainers.forEach((container, index) => {
                 const trialAnswers = userAnswers[index];
                 const isCompleted = Object.keys(trialAnswers).every(part => trialAnswers[part] && Object.keys(trialAnswers[part]).length > 0);
                 container.classList.remove('status-completed', 'status-not-started');
                 if (isCompleted) {
                     container.classList.add('status-completed');
+                    completedCount++;
                 } else {
                     container.classList.add('status-not-started');
                 }
@@ -152,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         const part = parseInt(item.dataset.part, 10);
                         if (part === currentPart) {
                             item.classList.add('active');
-                        } else {
+                        }
+                        else {
                             item.classList.remove('active');
                         }
                     });
@@ -160,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     container.classList.remove('active');
                 }
             });
+            tocCounter.textContent = `(${completedCount}/${trials.length})`;
         }
 
         function handleTOCClick(event) {
