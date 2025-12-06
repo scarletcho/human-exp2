@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let userAnswers = [];
         let experimentStarted = false;
         let dataFile = '';
+        let userId = '';
 
         // --- DOM Elements ---
         const participantIdInput = document.getElementById('participant-id');
@@ -68,10 +69,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevButtons = document.querySelectorAll('.prev-button');
         const nextButtons = document.querySelectorAll('.next-button');
 
+        function saveStateToLocalStorage() {
+            if (!userId) return;
+            const saveData = {
+                userAnswers,
+                dataFile,
+                currentTrialIndex,
+                currentPart,
+                trials
+            };
+            localStorage.setItem(`experiment-progress-${userId}`, JSON.stringify(saveData));
+        }
+
+        function loadStateFromLocalStorage(id) {
+            const savedData = localStorage.getItem(`experiment-progress-${id}`);
+            if (savedData) {
+                return JSON.parse(savedData);
+            }
+            return null;
+        }
+        
+        function clearState() {
+            if (!userId) return;
+            localStorage.removeItem(`experiment-progress-${userId}`);
+        }
+
         participantIdInput.addEventListener('input', () => {
-            const id = parseInt(participantIdInput.value, 10);
-            const groupA_IDs = [3, 4, 5];
-            const groupB_IDs = [7, 10, 11];
+            const id = participantIdInput.value.trim();
+            userId = id;
+            const groupA_IDs = ['3', '4', '5'];
+            const groupB_IDs = ['7', '10', '11'];
 
             if (groupA_IDs.includes(id)) {
                 dataFile = 'exp2_GroupA.jsonl';
@@ -85,20 +112,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        async function runExperiment() {
-            // --- Data Loading ---
-            const response = await fetch(dataFile);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const text = await response.text();
-            trials = text.trim().split('\n').map(line => JSON.parse(line));
-            userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+        async function runExperiment(savedState = null) {
+            if (savedState) {
+                userAnswers = savedState.userAnswers;
+                dataFile = savedState.dataFile;
+                currentTrialIndex = savedState.currentTrialIndex;
+                currentPart = savedState.currentPart;
+                trials = savedState.trials;
+                generateTOC();
+                showView(currentTrialIndex, currentPart);
+            } else {
+                const response = await fetch(dataFile);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                trials = text.trim().split('\n').map(line => JSON.parse(line));
+                userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
 
-            // --- TOC ---
-            generateTOC();
-            startContainer.style.display = 'none';
-            instructionContainer.style.display = 'block';
+                generateTOC();
+                startContainer.style.display = 'none';
+                instructionContainer.style.display = 'block';
+            }
         }
 
         // --- TOC ---
@@ -136,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function updateTOC() {
+            if (!trials.length) return;
             const keywordContainers = tocList.querySelectorAll('.toc-keyword-container');
             let completedCount = 0;
             keywordContainers.forEach((container, index) => {
@@ -202,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startContainer.style.display = 'none';
             instructionContainer.style.display = 'none';
             instructionContainer2.style.display = 'none';
-            if (trialIndex >= trials.length) {
+            if (!trials || trialIndex >= trials.length) {
                 contextPanel.style.display = 'none';
                 mainPanel.style.width = '100%';
                 mainPanel.style.padding = '0';
@@ -355,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 trialAnswers.part9.unchosenFeedback = feedback;
                 trialAnswers.part9.fbNoneText = fbNoneText.value;
             }
+            saveStateToLocalStorage();
         }
 
         function loadImprovementFeedback(partAnswers) {
@@ -390,45 +427,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 const partKey = `part${part}`;
                 const prevPartKey = part === 2 ? 'part1' : (part === 5 ? 'part4' : 'part7');
                 const candidatesKey = part === 2 ? 'candidates' : (part === 5 ? 'candidates2' : 'candidates3');
-
-                refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
-                
+                if (userAnswers[trialIndex][prevPartKey].noSpecific) {
+                    refUserAnswerEl.textContent = 'Nothing specific';
+                } else {
+                    refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
+                }
                 const candidateA = trials[trialIndex][candidatesKey].A;
                 const candidateB = trials[trialIndex][candidatesKey].B;
                 const candidateSelectionEl = part2Container.querySelector('.candidate-selection');
                 const satisfactionQuestionEl = satisfactionAndFeedbackSection.querySelector('.satisfaction-rating h2.label');
-
-                // Always display candidate selection, regardless of whether they are both 'None'
-                candidateSelectionEl.style.display = 'block'; // Ensure it's visible
-
+                candidateSelectionEl.style.display = 'block';
                 document.getElementById('candidate-a').innerHTML = createSpacedHTML(candidateA);
                 document.getElementById('candidate-b').innerHTML = createSpacedHTML(candidateB);
-
                 if (candidateA === 'None' && candidateB === 'None') {
                     satisfactionQuestionEl.textContent = "Q: Both models answered 'None'. How satisfied are you with this answer?";
-                    satisfactionAndFeedbackSection.style.display = 'block'; // Show satisfaction directly
-
-                    // Disable candidate radios as selection is not needed
+                    satisfactionAndFeedbackSection.style.display = 'block';
                     candidateRadios.forEach(radio => {
                         radio.checked = false;
                         radio.disabled = true;
                     });
-                    
                     satisfactionRadios.forEach(radio => {
                         radio.disabled = false;
                         radio.checked = radio.value === trialAnswers[partKey].satisfaction;
                     });
                     loadImprovementFeedback(trialAnswers[partKey]);
-
                 } else {
-                    // Existing logic for different/non-None answers
                     satisfactionQuestionEl.textContent = "Q: How satisfied are you with your chosen answer?";
-
                     candidateRadios.forEach(radio => {
-                        radio.disabled = false; // Ensure they are enabled for normal comparison
+                        radio.disabled = false;
                         radio.checked = radio.value === trialAnswers[partKey].candidateChoice;
                     });
-                    
                     if (trialAnswers[partKey].candidateChoice) {
                         satisfactionAndFeedbackSection.style.display = 'block';
                         satisfactionRadios.forEach(radio => {
@@ -574,7 +602,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         }
-    
+
+        const createSpacedHTML = (text) => {
+            if (!text || text.trim() === '' || text.trim().toLowerCase() === 'none') {
+                return '<div class="none-answer">None</div>';
+            }
+            return text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
+        };
 
         function updateButtonStates() {
             const isFirstPage = currentTrialIndex === 0 && currentPart === 1;
@@ -611,12 +645,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showView(currentTrialIndex, currentPart);
         }
 
-        const createSpacedHTML = (text) => {
-            if (!text || text.trim() === '' || text.trim().toLowerCase() === 'none') {
-                return '<div class="none-answer">None</div>';
-            }
-            return text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
-        };
         const getHighlightedHTML = (text, keyword, isGlobal) => {
             const flags = isGlobal ? 'gi' : 'i';
             const escapedKeyword = keyword.replace(/[-\/\\^$*+?.()|[\\]{}]/g, '\\$&');
@@ -625,14 +653,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         startExperimentButton.addEventListener('click', () => {
-            runExperiment().catch(error => {
-                console.error("Failed to run the experiment:", error);
-                document.body.innerHTML = `<div style="color: red; padding: 20px;">
-                    <h1>Error</h1>
-                    <p>Could not load required data. Please ensure you are running this application from a web server, not by opening the HTML file directly.</p>
-                    <p><strong>Error details:</strong> ${error.message}</p>
-                </div>`;
-            });
+            userId = participantIdInput.value.trim();
+            if (!userId) {
+                alert('Please enter a Participant ID to begin.');
+                return;
+            }
+
+            const savedState = loadStateFromLocalStorage(userId);
+            if (savedState) {
+                if (confirm('A saved session for this ID was found. Do you want to resume?')) {
+                    runExperiment(savedState);
+                } else {
+                    clearState();
+                    runExperiment();
+                }
+            } else {
+                runExperiment();
+            }
         });
 
         nextInstructionButton.addEventListener('click', () => {

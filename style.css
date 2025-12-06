@@ -60,7 +60,7 @@ body {
     flex-wrap: wrap;
     gap: 10px;
 }
-#instruction-button {
+#instruction-button, #save-progress-button {
     background-color: #6c757d;
     color: #ffffff;
     padding: 8px 12px;
@@ -70,9 +70,34 @@ body {
     font-weight: 600;
 }
 
-#instruction-button:hover {
+#instruction-button:hover, #save-progress-button:hover {
     background-color: #5a6268;
 }
+
+.start-buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.load-progress-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+
+.load-progress-button:hover {
+    background-color: #5a6268;
+}
+
 
 .toc-keyword-container {
     display: flex;
@@ -356,6 +381,8 @@ body {
 }
 
 .none-answer {
+    font-style: italic;
+    color: #888;
 }
 
 .bullet-item {
@@ -482,7 +509,7 @@ body {
 }
 
 /* Button Styles */
-#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, #next-instruction-button, .prev-button, .next-button {
+#submit-answer-button, #continue-button, #finish-trial-button, #start-experiment-button, #begin-experiment-button, #next-instruction-button, .prev-button, .next-button, .load-progress-button {
     display: block;
     width: 100%;
     margin-top: 20px;
@@ -496,7 +523,7 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-#submit-answer-button:hover, #continue-button:hover, #finish-trial-button:hover, #start-experiment-button:hover, .prev-button:hover, .next-button:hover {
+#submit-answer-button:hover, #continue-button:hover, #finish-trial-button:hover, #start-experiment-button:hover, .prev-button:hover, .next-button:hover, .load-progress-button:hover {
     background-color: #166fe5;
 }
 #submit-answer-button:disabled, #continue-button:disabled, #finish-trial-button:disabled, #start-experiment-button:disabled, .prev-button:disabled, .next-button:disabled {
