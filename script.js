@@ -631,8 +631,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         candidateRadios.forEach(radio => radio.addEventListener('change', () => {
             satisfactionAndFeedbackSection.style.display = 'block';
-            satisfactionRadios.forEach(r => r.disabled = false);
-            saveCurrentState();
+            satisfactionRadios.forEach(r => {
+                r.disabled = false;
+                r.checked = false; // Reset satisfaction
+            });
+            improvementFeedback.style.display = 'none'; // Hide improvement feedback
+            improvementCheckboxes.forEach(cb => cb.checked = false); // Clear checkboxes
+            improveFbNoneText.value = '';
+            improveFbNoneText.disabled = true;
+            saveCurrentState(); // This will save the new candidate and null satisfaction
             updateButtonStates();
         }));
         satisfactionRadios.forEach(radio => radio.addEventListener('change', () => {
