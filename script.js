@@ -638,6 +638,9 @@ document.addEventListener('DOMContentLoaded', () => {
         satisfactionRadios.forEach(radio => radio.addEventListener('change', () => {
             const selectedSatisfaction = document.querySelector('input[name="satisfaction"]:checked');
             if (selectedSatisfaction && selectedSatisfaction.value !== '5') {
+                improvementCheckboxes.forEach(cb => cb.checked = false); // Clear checkboxes when section becomes visible
+                improveFbNoneText.value = ''; // Also clear the "Other" text
+                improveFbNoneText.disabled = true; // Disable "Other" text initially
                 improvementFeedback.style.display = 'block';
             } else {
                 improvementFeedback.style.display = 'none';
