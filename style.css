@@ -356,12 +356,7 @@ body {
 }
 
 .none-answer {
-    font-weight: bold;
-    text-align: center;
-    background-color: #f0f0f0; /* Light grey background */
-    padding: 8px;
-    border-radius: 4px;
-    color: #606770; /* Slightly darker grey for contrast */
+    font-weight: bold; /* Keep bold for emphasis */
 }
 
 .bullet-item {
