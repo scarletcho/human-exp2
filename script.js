@@ -584,7 +584,16 @@ document.addEventListener('DOMContentLoaded', () => {
             showView(currentTrialIndex, currentPart);
         }
 
-        const createSpacedHTML = (text) => text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
+        const createSpacedHTML = (text) => {
+            if (!text || text.trim() === '') {
+                return '<div class="none-answer">None</div>';
+            }
+            // Check if the content is explicitly 'None' (case-insensitive)
+            if (text.trim().toLowerCase() === 'none') {
+                return '<div class="none-answer">None</div>'; // Add a class for styling
+            }
+            return text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
+        };
         const getHighlightedHTML = (text, keyword, isGlobal) => {
             const flags = isGlobal ? 'gi' : 'i';
             const escapedKeyword = keyword.replace(/[-\/\\^$*+?.()|[\\]{}]/g, '\\$&');

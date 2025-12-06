@@ -354,6 +354,16 @@ body {
     color: #333;
     line-height: 1.4;
 }
+
+.none-answer {
+    font-weight: bold;
+    text-align: center;
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 8px;
+    border-radius: 4px;
+    color: #606770; /* Slightly darker grey for contrast */
+}
+
 .bullet-item {
     margin-bottom: 0.4em;
 }
