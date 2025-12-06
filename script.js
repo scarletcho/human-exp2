@@ -396,9 +396,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const candidateSelectionEl = part2Container.querySelector('.candidate-selection');
                 const satisfactionQuestionEl = satisfactionAndFeedbackSection.querySelector('.satisfaction-rating h2.label');
                 if (candidateA === 'None' && candidateB === 'None') {
-                    candidateSelectionEl.style.display = 'none';
+                    // candidateSelectionEl.style.display = 'none'; // Removed as per user request
                     satisfactionQuestionEl.textContent = "Q: Both models answered 'None'. How satisfied are you with this answer?";
-                    satisfactionAndFeedbackSection.style.display = 'block';
+                    satisfactionAndFeedbackSection.style.display = 'block'; // Show satisfaction directly
+                    // Disable candidate radios as selection is not needed
+                    candidateRadios.forEach(radio => {
+                        radio.checked = false;
+                        radio.disabled = true;
+                    });
                     satisfactionRadios.forEach(radio => {
                         radio.disabled = false;
                         radio.checked = radio.value === trialAnswers[partKey].satisfaction;
@@ -409,7 +414,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     satisfactionQuestionEl.textContent = "Q: How satisfied are you with your chosen answer?";
                     document.getElementById('candidate-a').innerHTML = createSpacedHTML(candidateA);
                     document.getElementById('candidate-b').innerHTML = createSpacedHTML(candidateB);
-                    candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers[partKey].candidateChoice);
+                    candidateRadios.forEach(radio => {
+                        radio.disabled = false; // Ensure they are enabled for normal comparison
+                        radio.checked = radio.value === trialAnswers[partKey].candidateChoice;
+                    });
                     if (trialAnswers[partKey].candidateChoice) {
                         satisfactionAndFeedbackSection.style.display = 'block';
                         satisfactionRadios.forEach(radio => {
