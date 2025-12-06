@@ -6,21 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function main() {
-        // --- Data Loading ---
-        const response = await fetch('exp2_GroupA.jsonl');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const text = await response.text();
-        const trials = text.trim().split('\n').map(line => JSON.parse(line));
-
         // --- State Variables ---
+        let trials = [];
         let currentTrialIndex = 0;
         let currentPart = 1;
-        let userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+        let userAnswers = [];
         let experimentStarted = false;
+        let dataFile = '';
 
         // --- DOM Elements ---
+        const participantIdInput = document.getElementById('participant-id');
         const mainPanel = document.getElementById('main-panel');
         const mainWrapper = document.getElementById('main-wrapper');
         const contextKeywordEl = document.getElementById('context-keyword');
@@ -43,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const instructionContainer = document.getElementById('instruction-container');
         const instructionContainer2 = document.getElementById('instruction-container-2');
         const startExperimentButton = document.getElementById('start-experiment-button');
+        startExperimentButton.disabled = true;
         const nextInstructionButton = document.getElementById('next-instruction-button');
         const beginExperimentButton = document.getElementById('begin-experiment-button');
         const instructionButton = document.getElementById('instruction-button');
@@ -70,6 +66,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const nspaKeyword = document.getElementById('nspa-keyword');
         const prevButtons = document.querySelectorAll('.prev-button');
         const nextButtons = document.querySelectorAll('.next-button');
+
+        participantIdInput.addEventListener('input', () => {
+            const id = parseInt(participantIdInput.value, 10);
+            const groupA_IDs = [3, 4, 5];
+            const groupB_IDs = [7, 10, 11];
+
+            if (groupA_IDs.includes(id)) {
+                dataFile = 'exp2_GroupA.jsonl';
+                startExperimentButton.disabled = false;
+            } else if (groupB_IDs.includes(id)) {
+                dataFile = 'exp2_GroupB.jsonl';
+                startExperimentButton.disabled = false;
+            } else {
+                dataFile = '';
+                startExperimentButton.disabled = true;
+            }
+        });
+
+        async function runExperiment() {
+            // --- Data Loading ---
+            const response = await fetch(dataFile);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const text = await response.text();
+            trials = text.trim().split('\n').map(line => JSON.parse(line));
+            userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+
+            // --- TOC ---
+            generateTOC();
+            startContainer.style.display = 'none';
+            instructionContainer.style.display = 'block';
+        }
 
         // --- TOC ---
         function generateTOC() {
@@ -564,8 +593,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         startExperimentButton.addEventListener('click', () => {
-            startContainer.style.display = 'none';
-            instructionContainer.style.display = 'block';
+            runExperiment().catch(error => {
+                console.error("Failed to run the experiment:", error);
+                document.body.innerHTML = `<div style="color: red; padding: 20px;">
+                    <h1>Error</h1>
+                    <p>Could not load required data. Please ensure you are running this application from a web server, not by opening the HTML file directly.</p>
+                    <p><strong>Error details:</strong> ${error.message}</p>
+                </div>`;
+            });
         });
 
         nextInstructionButton.addEventListener('click', () => {
@@ -629,7 +664,6 @@ document.addEventListener('DOMContentLoaded', () => {
         noSpecificPart7AnswerEl.addEventListener('change', () => { part7AnswerTextEl.disabled = noSpecificPart7AnswerEl.checked; if (noSpecificPart7AnswerEl.checked) part7AnswerTextEl.value = ''; saveCurrentState(); updateButtonStates(); });
 
         // --- Initial Load ---
-        generateTOC();
         startContainer.style.display = 'block';
         mainPanel.style.width = '100%';
         part1Container.style.display = 'none';
