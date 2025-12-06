@@ -356,7 +356,8 @@ body {
 }
 
 .none-answer {
-    font-weight: bold; /* Keep bold for emphasis */
+    font-style: italic;
+    color: #888;
 }
 
 .bullet-item {

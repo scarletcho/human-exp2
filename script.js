@@ -445,10 +445,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } else if (part === 3) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
+                if (userAnswers[trialIndex].part1.noSpecific) {
+                    refUserAnswerEl.textContent = 'Nothing specific';
+                } else {
+                    refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
+                }
                 const { candidateChoice } = trialAnswers.part2;
                 const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
-                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${trialAnswers.part1.answer || ''}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates.B)}</div></label></div></div></div>`;
+                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${userAnswers[trialIndex].part1.noSpecific ? 'Nothing specific' : (trialAnswers.part1.answer || '')}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates.B)}</div></label></div></div></div>`;
                 unchosenFeedbackTitle.innerHTML = `Q: What did you NOT like about the answer you did not choose? (Answer ${unchosenChoice})<br><span class="subtitle">Choose all that apply:</span>`;
                 feedbackCheckboxes.forEach(checkbox => checkbox.checked = false);
                 if (trialAnswers.part3.unchosenFeedback) {
@@ -470,10 +474,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 noSpecificFinalAnswerEl.checked = trialAnswers.part4.noSpecificFinal || false;
                 finalAnswerText.disabled = noSpecificFinalAnswerEl.checked;
             } else if (part === 6) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
+                if (userAnswers[trialIndex].part4.noSpecificFinal) {
+                    refUserAnswerEl.textContent = 'Nothing specific';
+                } else {
+                    refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
+                }
                 const { candidateChoice } = trialAnswers.part5;
                 const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
-                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${trialAnswers.part4.finalAnswer || ''}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates2.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates2.B)}</div></label></div></div></div>`;
+                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${userAnswers[trialIndex].part4.noSpecificFinal ? 'Nothing specific' : (trialAnswers.part4.finalAnswer || '')}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates2.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates2.B)}</div></label></div></div></div>`;
                 unchosenFeedbackTitle.innerHTML = `Q: What did you NOT like about the answer you did not choose? (Answer ${unchosenChoice})<br><span class="subtitle">Choose all that apply:</span>`;
                 feedbackCheckboxes.forEach(checkbox => checkbox.checked = false);
                 if (trialAnswers.part6.unchosenFeedback) {
@@ -495,10 +503,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 noSpecificPart7AnswerEl.checked = trialAnswers.part7.noSpecific || false;
                 part7AnswerTextEl.disabled = noSpecificPart7AnswerEl.checked;
             } else if (part === 9) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
+                if (userAnswers[trialIndex].part7.noSpecific) {
+                    refUserAnswerEl.textContent = 'Nothing specific';
+                } else {
+                    refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
+                }
                 const { candidateChoice } = trialAnswers.part8;
                 const unchosenChoice = candidateChoice === 'A' ? 'B' : 'A';
-                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${trialAnswers.part7.answer || ''}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates3.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates3.B)}</div></label></div></div></div>`;
+                finalReviewSection.innerHTML = `<div class="user-submission-review"><h2 class="label">Your Answer:</h2><p>${userAnswers[trialIndex].part7.noSpecific ? 'Nothing specific' : (trialAnswers.part7.answer || '')}</p></div><div class="candidate-selection"><h2 class="label">Q: Choose the better answer between:</h2><div id="candidate-choices-wrapper"><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'A' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer A</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates3.A)}</div></label></div><div class="candidate-choice"><label class="candidate-label ${candidateChoice === 'B' ? '' : 'highlight-negative'}"><div class="candidate-title">Answer B</div><div class="candidate-content">${createSpacedHTML(trials[trialIndex].candidates3.B)}</div></label></div></div></div>`;
                 unchosenFeedbackTitle.innerHTML = `Q: What did you NOT like about the answer you did not choose? (Answer ${unchosenChoice})<br><span class="subtitle">Choose all that apply:</span>`;
                 feedbackCheckboxes.forEach(checkbox => checkbox.checked = false);
                 if (trialAnswers.part9.unchosenFeedback) {
@@ -600,12 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const createSpacedHTML = (text) => {
-            if (!text || text.trim() === '') {
+            if (!text || text.trim() === '' || text.trim().toLowerCase() === 'none') {
                 return '<div class="none-answer">None</div>';
-            }
-            // Check if the content is explicitly 'None' (case-insensitive)
-            if (text.trim().toLowerCase() === 'none') {
-                return '<div class="none-answer">None</div>'; // Add a class for styling
             }
             return text.split('\n').map(line => `<div class="${line.trim().startsWith('•') ? 'bullet-item' : ''}">${line}</div>`).join('');
         };
