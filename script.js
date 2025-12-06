@@ -386,24 +386,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 answerTextEl.value = trialAnswers.part1.answer || '';
                 noSpecificAnswerEl.checked = trialAnswers.part1.noSpecific || false;
                 answerTextEl.disabled = noSpecificAnswerEl.checked;
-            } else if (part === 2) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
-                document.getElementById('candidate-a').innerHTML = createSpacedHTML(trials[trialIndex].candidates.A);
-                document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates.B);
-                candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part2.candidateChoice);
-                if (trialAnswers.part2.candidateChoice) {
+            } else if (part === 2 || part === 5 || part === 8) {
+                const partKey = `part${part}`;
+                const prevPartKey = part === 2 ? 'part1' : (part === 5 ? 'part4' : 'part7');
+                const candidatesKey = part === 2 ? 'candidates' : (part === 5 ? 'candidates2' : 'candidates3');
+                refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
+                const candidateA = trials[trialIndex][candidatesKey].A;
+                const candidateB = trials[trialIndex][candidatesKey].B;
+                const candidateSelectionEl = part2Container.querySelector('.candidate-selection');
+                const satisfactionQuestionEl = satisfactionAndFeedbackSection.querySelector('.satisfaction-rating h2.label');
+                if (candidateA === 'None' && candidateB === 'None') {
+                    candidateSelectionEl.style.display = 'none';
+                    satisfactionQuestionEl.textContent = "Q: Both models answered 'None'. How satisfied are you with this answer?";
                     satisfactionAndFeedbackSection.style.display = 'block';
                     satisfactionRadios.forEach(radio => {
                         radio.disabled = false;
-                        radio.checked = radio.value === trialAnswers.part2.satisfaction;
+                        radio.checked = radio.value === trialAnswers[partKey].satisfaction;
                     });
-                    loadImprovementFeedback(trialAnswers.part2);
+                    loadImprovementFeedback(trialAnswers[partKey]);
                 } else {
-                    satisfactionAndFeedbackSection.style.display = 'none';
-                    satisfactionRadios.forEach(radio => {
-                        radio.disabled = true;
-                        radio.checked = false;
-                    });
+                    candidateSelectionEl.style.display = 'block';
+                    satisfactionQuestionEl.textContent = "Q: How satisfied are you with your chosen answer?";
+                    document.getElementById('candidate-a').innerHTML = createSpacedHTML(candidateA);
+                    document.getElementById('candidate-b').innerHTML = createSpacedHTML(candidateB);
+                    candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers[partKey].candidateChoice);
+                    if (trialAnswers[partKey].candidateChoice) {
+                        satisfactionAndFeedbackSection.style.display = 'block';
+                        satisfactionRadios.forEach(radio => {
+                            radio.disabled = false;
+                            radio.checked = radio.value === trialAnswers[partKey].satisfaction;
+                        });
+                        loadImprovementFeedback(trialAnswers[partKey]);
+                    } else {
+                        satisfactionAndFeedbackSection.style.display = 'none';
+                        satisfactionRadios.forEach(radio => {
+                            radio.disabled = true;
+                            radio.checked = false;
+                        });
+                    }
                 }
             } else if (part === 3) {
                 refUserAnswerEl.textContent = userAnswers[trialIndex].part1.answer || '';
@@ -430,25 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 finalAnswerText.value = trialAnswers.part4.finalAnswer || '';
                 noSpecificFinalAnswerEl.checked = trialAnswers.part4.noSpecificFinal || false;
                 finalAnswerText.disabled = noSpecificFinalAnswerEl.checked;
-            } else if (part === 5) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
-                document.getElementById('candidate-a').innerHTML = createSpacedHTML(trials[trialIndex].candidates2.A);
-                document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates2.B);
-                candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part5.candidateChoice);
-                if (trialAnswers.part5.candidateChoice) {
-                    satisfactionAndFeedbackSection.style.display = 'block';
-                    satisfactionRadios.forEach(radio => {
-                        radio.disabled = false;
-                        radio.checked = radio.value === trialAnswers.part5.satisfaction;
-                    });
-                    loadImprovementFeedback(trialAnswers.part5);
-                } else {
-                    satisfactionAndFeedbackSection.style.display = 'none';
-                    satisfactionRadios.forEach(radio => {
-                        radio.disabled = true;
-                        radio.checked = false;
-                    });
-                }
             } else if (part === 6) {
                 refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
                 const { candidateChoice } = trialAnswers.part5;
@@ -474,25 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 part7AnswerTextEl.value = trialAnswers.part7.answer || '';
                 noSpecificPart7AnswerEl.checked = trialAnswers.part7.noSpecific || false;
                 part7AnswerTextEl.disabled = noSpecificPart7AnswerEl.checked;
-            } else if (part === 8) {
-                refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
-                document.getElementById('candidate-a').innerHTML = createSpacedHTML(trials[trialIndex].candidates3.A);
-                document.getElementById('candidate-b').innerHTML = createSpacedHTML(trials[trialIndex].candidates3.B);
-                candidateRadios.forEach(radio => radio.checked = radio.value === trialAnswers.part8.candidateChoice);
-                if (trialAnswers.part8.candidateChoice) {
-                    satisfactionAndFeedbackSection.style.display = 'block';
-                    satisfactionRadios.forEach(radio => {
-                        radio.disabled = false;
-                        radio.checked = radio.value === trialAnswers.part8.satisfaction;
-                    });
-                    loadImprovementFeedback(trialAnswers.part8);
-                } else {
-                    satisfactionAndFeedbackSection.style.display = 'none';
-                    satisfactionRadios.forEach(radio => {
-                        radio.disabled = true;
-                        radio.checked = false;
-                    });
-                }
             } else if (part === 9) {
                 refUserAnswerEl.textContent = userAnswers[trialIndex].part7.answer || '';
                 const { candidateChoice } = trialAnswers.part8;
@@ -522,10 +504,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentPart === 1) {
                 return (answerTextEl.value.trim() !== '') || noSpecificAnswerEl.checked;
             } else if (currentPart === 2 || currentPart === 5 || currentPart === 8) {
-                const candidate = document.querySelector('input[name="candidate"]:checked');
+                const trial = trials[currentTrialIndex];
+                const candidatesKey = currentPart === 2 ? 'candidates' : (currentPart === 5 ? 'candidates2' : 'candidates3');
                 const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
-                if (!candidate || !satisfaction) {
-                    return false;
+                if (trial[candidatesKey].A === 'None' && trial[candidatesKey].B === 'None') {
+                    if (!satisfaction) return false;
+                } else {
+                    const candidate = document.querySelector('input[name="candidate"]:checked');
+                    if (!candidate || !satisfaction) return false;
                 }
                 if (satisfaction.value < 5) {
                     const improvementCheckboxes = document.querySelectorAll('input[name="improvement-feedback"]:checked');
@@ -553,6 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return false;
         }
+    
 
         function updateButtonStates() {
             const isFirstPage = currentTrialIndex === 0 && currentPart === 1;
