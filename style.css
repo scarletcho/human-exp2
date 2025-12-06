@@ -9,13 +9,38 @@ body {
     padding: 10px 20px;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 50px; /* Collapsed height */
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#toc-header:hover {
+    height: 300px; /* Expanded height */
+    overflow: auto; /* Use auto for scrolling if content is too long */
+}
+
+#toc-visual-cue {
+    text-align: center;
+    color: #606770;
+    font-size: 14px;
+    width: 100%;
+    position: absolute;
+    top: 28px; /* Adjusted for vertical centering */
+    left: 0;
+    cursor: pointer;
+}
+
+#toc-header:hover #toc-visual-cue {
+    display: none;
 }
 
 #toc-container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start */
 }
 
 #toc-container h2 {
@@ -29,8 +54,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 10px; /* Add margin to push it down from the instruction button */
 }
-
 #instruction-button {
     background-color: #6c757d;
     color: #ffffff;
@@ -40,6 +65,8 @@ body {
     cursor: pointer;
     font-weight: 600;
     margin-right: 15px;
+    z-index: 1; /* Ensure button is on top */
+    position: relative;
 }
 
 #instruction-button:hover {
