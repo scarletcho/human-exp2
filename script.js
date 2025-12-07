@@ -351,10 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         function saveCurrentState() {
             if (currentPart === 10) {
-                finalFeedback.strengthsA = Array.from(document.querySelectorAll('#strengths-a-list .feedback-input')).map(input => input.value);
-                finalFeedback.strengthsB = Array.from(document.querySelectorAll('#strengths-b-list .feedback-input')).map(input => input.value);
-                finalFeedback.weaknessesA = Array.from(document.querySelectorAll('#weaknesses-a-list .feedback-input')).map(input => input.value);
-                finalFeedback.weaknessesB = Array.from(document.querySelectorAll('#weaknesses-b-list .feedback-input')).map(input => input.value);
+                finalFeedback.strengthsA = Array.from(document.querySelectorAll('#strengths-a-list .feedback-input')).map(input => input.textContent);
+                finalFeedback.strengthsB = Array.from(document.querySelectorAll('#strengths-b-list .feedback-input')).map(input => input.textContent);
+                finalFeedback.weaknessesA = Array.from(document.querySelectorAll('#weaknesses-a-list .feedback-input')).map(input => input.textContent);
+                finalFeedback.weaknessesB = Array.from(document.querySelectorAll('#weaknesses-b-list .feedback-input')).map(input => input.textContent);
                 saveStateToLocalStorage();
                 return;
             }
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (items && items.length > 0) {
                         items.forEach(itemText => addFeedbackItem(listId, itemText));
                     } else {
-                        addFeedbackItem(listId, '• ');
+                        addFeedbackItem(listId, '');
                     }
                 }
                 return;
@@ -863,6 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemEl = document.createElement('div');
             itemEl.classList.add('feedback-item');
 
+            const bulletEl = document.createElement('span');
+            bulletEl.classList.add('bullet-marker');
+            bulletEl.textContent = '•';
+            itemEl.appendChild(bulletEl);
+
             const inputEl = document.createElement('div');
             inputEl.classList.add('feedback-input');
             inputEl.contentEditable = true;
@@ -883,7 +888,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addMoreButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const targetListId = e.target.dataset.target;
-                addFeedbackItem(targetListId, '• ');
+                addFeedbackItem(targetListId, '');
             });
         });
 
