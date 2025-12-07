@@ -73,10 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitFinishButton = document.getElementById('submit-finish-button');
         const prevButtons = document.querySelectorAll('.prev-button');
         const nextButtons = document.querySelectorAll('.next-button');
-        const strengthsAEl = document.getElementById('strengths-a');
-        const strengthsBEl = document.getElementById('strengths-b');
-        const weaknessesAEl = document.getElementById('weaknesses-a');
-        const weaknessesBEl = document.getElementById('weaknesses-b');
+        const addMoreButtons = document.querySelectorAll('.add-more-button');
+
 
         function saveStateToLocalStorage() {
             if (!userId) return;
@@ -861,12 +859,36 @@ document.addEventListener('DOMContentLoaded', () => {
             return text.replace(regex, '<span class="highlight">$1</span>');
         };
 
+        function addFeedbackItem(listId, text) {
+            const listEl = document.getElementById(listId);
+            const itemEl = document.createElement('div');
+            itemEl.classList.add('feedback-item');
+            const inputEl = document.createElement('div');
+            inputEl.classList.add('feedback-input');
+            inputEl.contentEditable = true;
+            inputEl.textContent = text;
+            itemEl.appendChild(inputEl);
+            listEl.appendChild(itemEl);
+        }
+
+        addMoreButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetListId = e.target.dataset.target;
+                addFeedbackItem(targetListId, '• ');
+            });
+        });
+
         function handleFeedbackBoxInput(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 document.execCommand('insertHTML', false, '<div>•&nbsp;</div>');
             }
         }
+
+        const strengthsAEl = document.getElementById('strengths-a-list');
+        const strengthsBEl = document.getElementById('strengths-b-list');
+        const weaknessesAEl = document.getElementById('weaknesses-a-list');
+        const weaknessesBEl = document.getElementById('weaknesses-b-list');
 
         strengthsAEl.addEventListener('keydown', handleFeedbackBoxInput);
         strengthsBEl.addEventListener('keydown', handleFeedbackBoxInput);
