@@ -718,13 +718,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     ...userAnswers[index]
                 }));
 
+                const formatFeedback = (feedbackArray) => {
+                    if (!feedbackArray || feedbackArray.length === 0) {
+                        return '';
+                    }
+                    const nonEmptyFeedback = feedbackArray.filter(item => item.trim() !== '');
+                    if (nonEmptyFeedback.length === 0) {
+                        return '';
+                    }
+                    return '• ' + nonEmptyFeedback.join('\n• ');
+                };
+
+                const formattedFinalFeedback = {
+                    strengthsA: formatFeedback(finalFeedback.strengthsA),
+                    strengthsB: formatFeedback(finalFeedback.strengthsB),
+                    weaknessesA: formatFeedback(finalFeedback.weaknessesA),
+                    weaknessesB: formatFeedback(finalFeedback.weaknessesB),
+                };
+
                 try {
                     const response = await fetch('/api/save-results', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ responses: allTrialsData, userId, finalFeedback }),
+                        body: JSON.stringify({ responses: allTrialsData, userId, finalFeedback: formattedFinalFeedback }),
                     });
                         
                     if (response.ok) {
