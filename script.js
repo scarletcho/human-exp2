@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 const text = await response.text();
                 trials = text.trim().split('\n').map(line => JSON.parse(line));
-                trials = trials.slice(0, 2); // Limit to first two trials
                 userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
                 finalFeedback = {};
 
