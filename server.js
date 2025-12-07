@@ -93,14 +93,21 @@ async function ensureHeader(sheets, spreadsheetId, header) {
 
 app.post('/api/save-results', async (req, res) => {
     try {
-        const { responses, userId } = req.body;
+        const { responses, userId, finalFeedback } = req.body;
         if (!responses || !userId) {
             return res.status(400).send({ message: "Missing 'userId' or 'responses' in request." });
         }
 
-        const auth = await getAuth();
+        let auth;
+        try {
+            auth = await getAuth();
+        } catch (error) {
+            console.error('Google Sheets authentication failed:', error);
+            return res.status(500).send({ message: 'Server configuration error: Could not authenticate with Google Sheets.' });
+        }
+        
         const sheets = google.sheets({ version: 'v4', auth });
-        const sheetName = process.env.GOOGLE_SHEET_NAME || 'EXP1-main';
+        const sheetName = process.env.GOOGLE_SHEET_NAME || 'EXP2-main';
 
         const spreadsheetId = await getOrCreateSpreadsheetId(auth, sheetName);
         if (!spreadsheetId) {
@@ -116,7 +123,7 @@ app.post('/api/save-results', async (req, res) => {
         };
         
         const header = [
-            'User ID', 'Passcode', 'Trial Index', 'Keyword', 'Situation', 'Question',
+            'User ID', 'Passcode', 'Trial Index', 'Keyword', 'Situation',
             'Event - Part 1 Answer',
             'Event - Part 2 Candidate Choice', 'Event - Part 2 Satisfaction', 'Event - Part 2 Improvement Feedback', 'Event - Part 2 Improvement Other',
             'Event - Part 3 Unchosen Feedback', 'Event - Part 3 Other',
@@ -125,8 +132,10 @@ app.post('/api/save-results', async (req, res) => {
             'Property - Part 6 Unchosen Feedback', 'Property - Part 6 Other',
             'Emotion - Part 7 Answer',
             'Emotion - Part 8 Candidate Choice', 'Emotion - Part 8 Satisfaction', 'Emotion - Part 8 Improvement Feedback', 'Emotion - Part 8 Improvement Other',
-            'Emotion - Part 9 Unchosen Feedback', 'Emotion - Part 9 Other'
+            'Emotion - Part 9 Unchosen Feedback', 'Emotion - Part 9 Other',
+            'Strengths A', 'Weaknesses A', 'Strengths B', 'Weaknesses B'
         ];
+
 
         const rows = responses.map(trialData => ([
             na(userId),
@@ -134,7 +143,6 @@ app.post('/api/save-results', async (req, res) => {
             na(trialData?.trialIndex),
             na(trialData?.keyword),
             na(trialData?.situation),
-            na(trialData?.question),
             na(trialData?.part1?.answer),
             na(trialData?.part2?.candidateChoice),
             na(trialData?.part2?.satisfaction),
@@ -155,7 +163,11 @@ app.post('/api/save-results', async (req, res) => {
             na(trialData?.part8?.improvementFeedback),
             na(trialData?.part8?.improvementFbNoneText),
             na(trialData?.part9?.unchosenFeedback),
-            na(trialData?.part9?.fbNoneText)
+            na(trialData?.part9?.fbNoneText),
+            na(finalFeedback?.strengthsA),
+            na(finalFeedback?.weaknessesA),
+            na(finalFeedback?.strengthsB),
+            na(finalFeedback?.weaknessesB)
         ]));
 
         await ensureHeader(sheets, spreadsheetId, header);

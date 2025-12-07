@@ -4,6 +4,7 @@
   "main": "script.js",
   "scripts": {
     "start": "node server.js",
+    "dev": "node start-dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +17,7 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "googleapis": "^167.0.0"
+    "googleapis": "^167.0.0",
+    "open": "^11.0.0"
   }
 }

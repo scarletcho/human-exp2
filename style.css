@@ -1173,3 +1173,51 @@ body {
     font-weight: bold;
     color: black; /* Black color as requested */
 }
+
+/* Final Feedback Page */
+#part10-container {
+    width: 100%;
+    max-width: 900px;
+}
+
+.final-feedback-container {
+    padding: 20px;
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.feedback-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.feedback-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    font-weight: bold;
+}
+
+.feedback-cell {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.feedback-box {
+    min-height: 150px;
+    outline: none;
+    line-height: 1.6;
+}
+
+.feedback-box[contenteditable]:empty:before {
+    content: attr(data-placeholder);
+    color: #999;
+    font-style: italic;
+}

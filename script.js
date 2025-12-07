@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentTrialIndex = 0;
         let currentPart = 1;
         let userAnswers = [];
+        let finalFeedback = {};
         let experimentStarted = false;
         let dataFile = '';
         let userId = '';
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const part3Container = document.getElementById('part3-container');
         const part4Container = document.getElementById('part4-container');
         const part7Container = document.getElementById('part7-container');
+        const part10Container = document.getElementById('part10-container');
         const completionContainer = document.getElementById('completion-container');
         const startContainer = document.getElementById('start-container');
         const instructionContainer = document.getElementById('instruction-container');
@@ -71,11 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitFinishButton = document.getElementById('submit-finish-button');
         const prevButtons = document.querySelectorAll('.prev-button');
         const nextButtons = document.querySelectorAll('.next-button');
+        const strengthsAEl = document.getElementById('strengths-a');
+        const strengthsBEl = document.getElementById('strengths-b');
+        const weaknessesAEl = document.getElementById('weaknesses-a');
+        const weaknessesBEl = document.getElementById('weaknesses-b');
 
         function saveStateToLocalStorage() {
             if (!userId) return;
             const saveData = {
                 userAnswers,
+                finalFeedback,
                 dataFile,
                 currentTrialIndex,
                 currentPart,
@@ -117,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         async function runExperiment(savedState = null) {
             if (savedState) {
                 userAnswers = savedState.userAnswers;
+                finalFeedback = savedState.finalFeedback || {};
                 dataFile = savedState.dataFile;
                 currentTrialIndex = savedState.currentTrialIndex;
                 currentPart = savedState.currentPart;
@@ -132,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 trials = text.trim().split('\n').map(line => JSON.parse(line));
                 trials = trials.slice(0, 2); // Limit to first two trials
                 userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+                finalFeedback = {};
 
                 generateTOC();
                 startContainer.style.display = 'none';
@@ -228,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             part3Container.style.display = 'none';
             part4Container.style.display = 'none';
             part7Container.style.display = 'none';
+            part10Container.style.display = 'none';
             instructionContainer.style.display = 'block';
             beginExperimentButton.textContent = "Resume Experiment";
             saveProgressButton.disabled = true;
@@ -239,10 +249,22 @@ document.addEventListener('DOMContentLoaded', () => {
             part3Container.style.display = 'none';
             part4Container.style.display = 'none';
             part7Container.style.display = 'none';
+            part10Container.style.display = 'none';
             completionContainer.style.display = 'none';
             startContainer.style.display = 'none';
             instructionContainer.style.display = 'none';
             instructionContainer2.style.display = 'none';
+
+            if (part === 10) {
+                contextPanel.style.display = 'none';
+                mainPanel.style.width = '100%';
+                mainWrapper.style.maxWidth = '1200px';
+                part10Container.style.display = 'block';
+                loadState(null, 10);
+                updateButtonStates();
+                return;
+            }
+
             if (!trials || trialIndex >= trials.length) {
                 contextPanel.style.display = 'none';
                 mainPanel.style.width = '100%';
@@ -330,6 +352,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return { feedback: feedback, noneText: improveFbNoneText.value };
         }
         function saveCurrentState() {
+            if (currentPart === 10) {
+                finalFeedback.strengthsA = strengthsAEl.innerHTML;
+                finalFeedback.strengthsB = strengthsBEl.innerHTML;
+                finalFeedback.weaknessesA = weaknessesAEl.innerHTML;
+                finalFeedback.weaknessesB = weaknessesBEl.innerHTML;
+                saveStateToLocalStorage();
+                return;
+            }
             if (currentTrialIndex >= trials.length) return;
             const trialAnswers = userAnswers[currentTrialIndex];
             if (currentPart === 1) {
@@ -432,6 +462,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function loadState(trialIndex, part) {
+            if (part === 10) {
+                strengthsAEl.innerHTML = finalFeedback.strengthsA || '';
+                strengthsBEl.innerHTML = finalFeedback.strengthsB || '';
+                weaknessesAEl.innerHTML = finalFeedback.weaknessesA || '';
+                weaknessesBEl.innerHTML = finalFeedback.weaknessesB || '';
+                return;
+            }
             const trialAnswers = userAnswers[trialIndex];
             if (part === 1) {
                 answerTextEl.value = trialAnswers.part1.answer || '';
@@ -441,11 +478,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const partKey = `part${part}`;
                 const prevPartKey = part === 2 ? 'part1' : (part === 5 ? 'part4' : 'part7');
                 const candidatesKey = part === 2 ? 'candidates' : (part === 5 ? 'candidates2' : 'candidates3');
-                if (userAnswers[trialIndex][prevPartKey].noSpecific) {
-                    refUserAnswerEl.textContent = 'Nothing specific';
+                
+                if (part === 5) {
+                    if (userAnswers[trialIndex].part4.noSpecificFinal) {
+                        refUserAnswerEl.textContent = 'Nothing specific';
+                    } else {
+                        refUserAnswerEl.textContent = userAnswers[trialIndex].part4.finalAnswer || '';
+                    }
                 } else {
-                    refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
+                    if (userAnswers[trialIndex][prevPartKey].noSpecific) {
+                        refUserAnswerEl.textContent = 'Nothing specific';
+                    } else {
+                        refUserAnswerEl.textContent = userAnswers[trialIndex][prevPartKey].answer || '';
+                    }
                 }
+
                 const candidateA = trials[trialIndex][candidatesKey].A;
                 const candidateB = trials[trialIndex][candidatesKey].B;
                 const candidateSelectionEl = part2Container.querySelector('.candidate-selection');
@@ -573,6 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function isPartComplete() {
+            if (currentPart === 10) return true;
             if (currentTrialIndex >= trials.length) return true;
             if (currentPart === 1) {
                 return (answerTextEl.value.trim() !== '') || noSpecificAnswerEl.checked;
@@ -656,7 +704,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     trialIndex: index,
                     keyword: trial.keyword,
                     situation: trial.situation,
-                    question: trial.question,
                     ...userAnswers[index]
                 }));
 
@@ -666,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ responses: allTrialsData, userId }),
+                        body: JSON.stringify({ responses: allTrialsData, userId, finalFeedback }),
                     });
                         
                     if (response.ok) {
@@ -679,12 +726,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         `;
                         submitFinishButton.disabled = true;
                     } else {
-                        const errorData = await response.json();
-                        console.error('Failed to save responses:', errorData);
+                        const contentType = response.headers.get("content-type");
+                        let errorDisplay = "An unknown error occurred.";
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            const errorData = await response.json();
+                            console.error('Failed to save responses:', errorData);
+                            errorDisplay = `Error: ${errorData.message}`;
+                        } else {
+                            const errorText = await response.text();
+                            console.error('Failed to save responses with non-JSON response:', errorText);
+                            errorDisplay = `Error: Unexpected token '<', "${errorText.substring(0, 100)}..."`;
+                        }
                         submissionConfirmation.innerHTML = `
                             <h1>Oops!</h1>
                             <p>There was an error saving your responses. Please contact the administrator.</p>
-                            <p style="color:red; font-size:0.8em;">Error: ${errorData.message}</p>
+                            <p style="color:red; font-size:0.8em;">${errorDisplay}</p>
                             <p>Your data is still saved in this browser. You can try submitting again later or contact support.</p>
                         `;
                     }
@@ -703,7 +759,10 @@ document.addEventListener('DOMContentLoaded', () => {
         function previousPage() {
             saveCurrentState();
 
-            if (currentPart === 1 && currentTrialIndex > 0) {
+            if (currentPart === 10) {
+                currentPart = 9;
+                currentTrialIndex = trials.length - 1;
+            } else if (currentPart === 1 && currentTrialIndex > 0) {
                 // Moving to previous trial
                 currentTrialIndex--;
                 const prevTrial = trials[currentTrialIndex];
@@ -736,6 +795,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function nextPage() {
             saveCurrentState();
+
+            if (currentPart === 9 && currentTrialIndex === trials.length - 1) {
+                currentPart = 10;
+                showView(null, 10);
+                return;
+            }
+            
+            if (currentPart === 10) {
+                showView(trials.length, 1); // Go to completion page
+                return;
+            }
 
             const trial = trials[currentTrialIndex];
             // Check if we are moving from a part that could be a "None scenario"
@@ -776,6 +846,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const regex = new RegExp(`(${escapedKeyword}s?)`, flags);
             return text.replace(regex, '<span class="highlight">$1</span>');
         };
+
+        function handleFeedbackBoxInput(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.execCommand('insertHTML', false, '<div>•&nbsp;</div>');
+            }
+        }
+
+        strengthsAEl.addEventListener('keydown', handleFeedbackBoxInput);
+        strengthsBEl.addEventListener('keydown', handleFeedbackBoxInput);
+        weaknessesAEl.addEventListener('keydown', handleFeedbackBoxInput);
+        weaknessesBEl.addEventListener('keydown', handleFeedbackBoxInput);
 
         startNewButton.addEventListener('click', () => {
             userId = participantIdInput.value.trim();
@@ -897,6 +979,7 @@ document.addEventListener('DOMContentLoaded', () => {
         part3Container.style.display = 'none';
         part4Container.style.display = 'none';
         part7Container.style.display = 'none';
+        part10Container.style.display = 'none';
         completionContainer.style.display = 'none';
         instructionContainer.style.display = 'none';
         instructionContainer2.style.display = 'none';
