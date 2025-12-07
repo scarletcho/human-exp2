@@ -1210,14 +1210,44 @@ body {
     padding: 10px;
 }
 
-.feedback-box {
-    min-height: 150px;
-    outline: none;
-    line-height: 1.6;
+.feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.feedback-box[contenteditable]:empty:before {
-    content: attr(data-placeholder);
-    color: #999;
-    font-style: italic;
+.feedback-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
+
+.bullet {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.feedback-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.feedback-input:focus {
+    border-bottom-color: #1877f2;
+}
+
+.add-more-button {
+    background: none;
+    border: none;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    padding: 0;
+    text-align: left;
+}
+

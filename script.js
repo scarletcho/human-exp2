@@ -353,10 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         function saveCurrentState() {
             if (currentPart === 10) {
-                finalFeedback.strengthsA = strengthsAEl.innerHTML;
-                finalFeedback.strengthsB = strengthsBEl.innerHTML;
-                finalFeedback.weaknessesA = weaknessesAEl.innerHTML;
-                finalFeedback.weaknessesB = weaknessesBEl.innerHTML;
+                finalFeedback.strengthsA = Array.from(document.querySelectorAll('#strengths-a-list .feedback-input')).map(input => input.value);
+                finalFeedback.strengthsB = Array.from(document.querySelectorAll('#strengths-b-list .feedback-input')).map(input => input.value);
+                finalFeedback.weaknessesA = Array.from(document.querySelectorAll('#weaknesses-a-list .feedback-input')).map(input => input.value);
+                finalFeedback.weaknessesB = Array.from(document.querySelectorAll('#weaknesses-b-list .feedback-input')).map(input => input.value);
                 saveStateToLocalStorage();
                 return;
             }
@@ -463,10 +463,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function loadState(trialIndex, part) {
             if (part === 10) {
-                strengthsAEl.innerHTML = finalFeedback.strengthsA || '';
-                strengthsBEl.innerHTML = finalFeedback.strengthsB || '';
-                weaknessesAEl.innerHTML = finalFeedback.weaknessesA || '';
-                weaknessesBEl.innerHTML = finalFeedback.weaknessesB || '';
+                const lists = {
+                    'strengths-a-list': finalFeedback.strengthsA,
+                    'strengths-b-list': finalFeedback.strengthsB,
+                    'weaknesses-a-list': finalFeedback.weaknessesA,
+                    'weaknesses-b-list': finalFeedback.weaknessesB,
+                };
+
+                for (const listId in lists) {
+                    const listEl = document.getElementById(listId);
+                    listEl.innerHTML = '';
+                    const items = lists[listId];
+                    if (items && items.length > 0) {
+                        items.forEach(itemText => addFeedbackItem(listId, itemText));
+                    } else {
+                        addFeedbackItem(listId, '');
+                        addFeedbackItem(listId, '');
+                    }
+                }
                 return;
             }
             const trialAnswers = userAnswers[trialIndex];
