@@ -475,8 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (items && items.length > 0) {
                         items.forEach(itemText => addFeedbackItem(listId, itemText));
                     } else {
-                        addFeedbackItem(listId, '');
-                        addFeedbackItem(listId, '');
+                        addFeedbackItem(listId, '• ');
                     }
                 }
                 return;
@@ -863,11 +862,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const listEl = document.getElementById(listId);
             const itemEl = document.createElement('div');
             itemEl.classList.add('feedback-item');
+
             const inputEl = document.createElement('div');
             inputEl.classList.add('feedback-input');
             inputEl.contentEditable = true;
             inputEl.textContent = text;
             itemEl.appendChild(inputEl);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('delete-btn');
+            deleteBtn.textContent = 'X';
+            deleteBtn.addEventListener('click', () => {
+                itemEl.remove();
+            });
+            itemEl.appendChild(deleteBtn);
+
             listEl.appendChild(itemEl);
         }
 
