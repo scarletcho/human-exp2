@@ -895,7 +895,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleFeedbackBoxInput(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                document.execCommand('insertHTML', false, '<div>•&nbsp;</div>');
             }
         }
 
