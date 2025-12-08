@@ -61,7 +61,7 @@ body {
     gap: 10px;
 }
 #instruction-button {
-    background-color: #fd7e14; /* Orange */
+    background-color: #1877f2; /* Blue */
     color: #ffffff;
     padding: 8px 12px;
     border-radius: 4px;
@@ -71,7 +71,7 @@ body {
 }
 
 #instruction-button:hover {
-    background-color: #dc6200; /* Darker Orange */
+    background-color: #166fe5; /* Darker Blue */
 }
 
 #save-progress-button {
