@@ -113,6 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (groupB_IDs.includes(userId)) {
                 dataFile = 'exp2_GroupB.jsonl';
                 startNewButton.disabled = false;
+            } else if (userId === 'test') { // Added for testing purposes
+                dataFile = 'exp2_test.jsonl';
+                startNewButton.disabled = false;
             } else {
                 dataFile = '';
                 startNewButton.disabled = true;
@@ -130,19 +133,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 generateTOC();
                 showView(currentTrialIndex, currentPart);
             } else {
-                const response = await fetch(dataFile);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-                trials = text.trim().split('\n').map(line => JSON.parse(line));
-                userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
-                finalFeedback = {};
+                try {
+                    const response = await fetch(dataFile);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, failed to fetch ${dataFile}`);
+                    }
+                    const text = await response.text();
+                    trials = text.trim().split('\n').map(line => JSON.parse(line));
+                    userAnswers = trials.map(() => ({ part1: {}, part2: {}, part3: {}, part4: {}, part5: {}, part6: {}, part7: {}, part8: {}, part9: {} }));
+                    finalFeedback = {};
 
-                generateTOC();
-                startContainer.style.display = 'none';
-                instructionContainer.style.display = 'block';
-                saveProgressButton.disabled = true;
+                    generateTOC();
+                    startContainer.style.display = 'none';
+                    instructionContainer.style.display = 'block';
+                    saveProgressButton.disabled = true;
+                } catch (error) {
+                    console.error('Failed to run experiment:', error);
+                    alert('Failed to load experiment data. Error: ' + error.message);
+                }
             }
         }
 
@@ -924,6 +932,11 @@ document.addEventListener('DOMContentLoaded', () => {
         strengthsBEl.addEventListener('keydown', handleFeedbackBoxInput);
         weaknessesAEl.addEventListener('keydown', handleFeedbackBoxInput);
         weaknessesBEl.addEventListener('keydown', handleFeedbackBoxInput);
+
+        strengthsAEl.addEventListener('input', saveCurrentState);
+        strengthsBEl.addEventListener('input', saveCurrentState);
+        weaknessesAEl.addEventListener('input', saveCurrentState);
+        weaknessesBEl.addEventListener('input', saveCurrentState);
 
         startNewButton.addEventListener('click', () => {
             userId = participantIdInput.value.trim();

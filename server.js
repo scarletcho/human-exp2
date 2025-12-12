@@ -137,38 +137,54 @@ app.post('/api/save-results', async (req, res) => {
         ];
 
 
-        const rows = responses.map(trialData => ([
-            na(userId),
-            na(passcode),
-            na(trialData?.trialIndex),
-            na(trialData?.keyword),
-            na(trialData?.situation),
-            na(trialData?.part1?.answer),
-            na(trialData?.part2?.candidateChoice),
-            na(trialData?.part2?.satisfaction),
-            na(trialData?.part2?.improvementFeedback),
-            na(trialData?.part2?.improvementFbNoneText),
-            na(trialData?.part3?.unchosenFeedback),
-            na(trialData?.part3?.fbNoneText),
-            na(trialData?.part4?.finalAnswer),
-            na(trialData?.part5?.candidateChoice),
-            na(trialData?.part5?.satisfaction),
-            na(trialData?.part5?.improvementFeedback),
-            na(trialData?.part5?.improvementFbNoneText),
-            na(trialData?.part6?.unchosenFeedback),
-            na(trialData?.part6?.fbNoneText),
-            na(trialData?.part7?.answer),
-            na(trialData?.part8?.candidateChoice),
-            na(trialData?.part8?.satisfaction),
-            na(trialData?.part8?.improvementFeedback),
-            na(trialData?.part8?.improvementFbNoneText),
-            na(trialData?.part9?.unchosenFeedback),
-            na(trialData?.part9?.fbNoneText),
-            na(finalFeedback?.strengthsA),
-            na(finalFeedback?.weaknessesA),
-            na(finalFeedback?.strengthsB),
-            na(finalFeedback?.weaknessesB)
-        ]));
+        const rows = responses.map((trialData, index) => {
+            const baseRow = [
+                na(userId),
+                na(passcode),
+                na(trialData?.trialIndex),
+                na(trialData?.keyword),
+                na(trialData?.situation),
+                na(trialData?.part1?.answer),
+                na(trialData?.part2?.candidateChoice),
+                na(trialData?.part2?.satisfaction),
+                na(trialData?.part2?.improvementFeedback),
+                na(trialData?.part2?.improvementFbNoneText),
+                na(trialData?.part3?.unchosenFeedback),
+                na(trialData?.part3?.fbNoneText),
+                na(trialData?.part4?.finalAnswer),
+                na(trialData?.part5?.candidateChoice),
+                na(trialData?.part5?.satisfaction),
+                na(trialData?.part5?.improvementFeedback),
+                na(trialData?.part5?.improvementFbNoneText),
+                na(trialData?.part6?.unchosenFeedback),
+                na(trialData?.part6?.fbNoneText),
+                na(trialData?.part7?.answer),
+                na(trialData?.part8?.candidateChoice),
+                na(trialData?.part8?.satisfaction),
+                na(trialData?.part8?.improvementFeedback),
+                na(trialData?.part8?.improvementFbNoneText),
+                na(trialData?.part9?.unchosenFeedback),
+                na(trialData?.part9?.fbNoneText),
+            ];
+
+            if (index === 0) { // Only for the first row of the submission
+                return [
+                    ...baseRow,
+                    na(finalFeedback?.strengthsA),
+                    na(finalFeedback?.weaknessesA),
+                    na(finalFeedback?.strengthsB),
+                    na(finalFeedback?.weaknessesB)
+                ];
+            } else {
+                return [
+                    ...baseRow,
+                    '', // Strengths A
+                    '', // Weaknesses A
+                    '', // Strengths B
+                    '', // Weaknesses B
+                ];
+            }
+        });
 
         await ensureHeader(sheets, spreadsheetId, header);
 
